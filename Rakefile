@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "gmath3D"
   gem.homepage = "http://github.com/toshi0328/gmath3D"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Geometric elements in 3D}
+  gem.description = %Q{This library defines 3D geometric elements(point, line, plane etc..). It can get two(or more) elements relation, like distance between two elements.}
   gem.email = "toshi0328@gmail.com"
   gem.authors = ["Toshiyasu Shimizu"]
   # dependencies defined in Gemfile

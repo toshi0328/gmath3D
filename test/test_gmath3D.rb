@@ -1,7 +1,15 @@
-require 'helper'
+$LOAD_PATH.unshift(File.dirname(__FILE__))
 
-class TestGmath3d < Test::Unit::TestCase
-  should "probably rename this file and start testing for real" do
-    flunk "hey buddy, you should probably rename this file and start testing for real"
-  end
-end
+require 'helper'
+require 'test_geom'
+require 'test_util'
+require 'test_vector3'
+require 'test_line'
+require 'test_finite_line'
+require 'test_plane'
+require 'test_rectangle'
+require 'test_triangle'
+require 'test_box'
+
+
+

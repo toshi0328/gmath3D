@@ -1,16 +1,16 @@
 = gmath3D
 
-Description goes here.
+This library defines 3D geometric elements(point, line, plane etc..). It can get two(or more) elements relation, like distance between two elements.
 
-== Contributing to gmath3D
- 
-* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
-* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
-* Fork the project
-* Start a feature/bugfix branch
-* Commit and push until you are happy with your contribution
-* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
-* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+== Class list in gmath3D
+* Vector3 class signifies point and vector in 3D.
+* Line class signifies inifinite line in 3D.
+* FiniteLine class signifies finite line in 3D.
+* Plane class signifies inifinite plane in 3D.
+* Rectangle class signifies finite plane that has 4 edges in 3.
+* Triangle class signifies finite plane that has 3 edges in 3.
+* Box class signifies axially aligned box.
+* Geom class is parent class of all 3D elements.
 
 == Copyright
 
