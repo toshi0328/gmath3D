@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "gmath3D.gemspec",
     "lib/box.rb",
     "lib/finite_line.rb",
     "lib/geom.rb",
