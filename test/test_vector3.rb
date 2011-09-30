@@ -5,7 +5,7 @@ MiniTest::Unit.autorun
 class Vector3TestCase < MiniTest::Unit::TestCase
   def setup
     @vector_init_zero = Vector3.new()
-    @vector = Vector3.new(1.0, 2.0, 3.0)
+    @vector = Vector3.new(1, 2.0, 3.0)
   end
 
   def test_initalize
@@ -18,6 +18,14 @@ class Vector3TestCase < MiniTest::Unit::TestCase
     assert_equal(3.0, @vector.z)
 
     assert_equal(Geom.default_tolerance, @vector.tolerance)
+  end
+
+  def test_to_s
+    assert_equal("Vector3[1, 2.0, 3.0]", @vector.to_s)
+  end
+
+  def test_to_element_s
+    assert_equal("[1, 2.0, 3.0]", @vector.to_element_s)
   end
 
   def test_assign_value

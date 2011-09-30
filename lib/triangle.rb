@@ -13,6 +13,10 @@ public
       @vertices = Array.new([vertex_arg1, vertex_arg2, vertex_arg3])
     end
 
+    def to_s
+      "Triangle[#{@vertices[0].to_element_s}, #{@vertices[1].to_element_s}, #{@vertices[2].to_element_s}]"
+    end
+
     def point( parameter )
       Util.check_arg_type(::Array, parameter )
       # TODO Argument check

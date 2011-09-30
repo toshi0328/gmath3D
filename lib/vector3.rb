@@ -13,6 +13,15 @@ public
       @y = y
       @z = z
     end
+
+    def to_element_s
+      "[#{@x}, #{@y}, #{@z}]"
+    end
+
+    def to_s
+      "Vector3" + to_element_s
+    end
+
     def ==(rhs)
       equals_inner(rhs)
     end

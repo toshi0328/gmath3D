@@ -19,6 +19,10 @@ public
       self.v_vector = v_vector_arg
     end
 
+    def to_s
+      "Rectangle[base#{@base_point.to_element_s}, u#{@u_vector.to_element_s}, v#{@v_vector.to_element_s}"
+    end
+
     def point(u, v)
       Util.check_arg_type(::Numeric, u)
       Util.check_arg_type(::Numeric, v)

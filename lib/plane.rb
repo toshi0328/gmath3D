@@ -14,6 +14,10 @@ public
       @normal = normal_arg.normalize()
     end
 
+    def to_s
+      "Plane[point#{@base_point.to_element_s}, normal#{@normal.to_element_s}]"
+    end
+
     def distance(target)
       # with Point
       if(target.kind_of?(Vector3))

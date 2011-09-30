@@ -14,6 +14,10 @@ public
       @end_point  = end_point_arg
     end
 
+    def to_s
+      "FiniteLine[from#{start_point.to_element_s}, to#{end_point.to_element_s}]"
+    end
+
     def direction
       @end_point - @start_point
     end
