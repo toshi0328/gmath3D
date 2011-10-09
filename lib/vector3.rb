@@ -24,10 +24,18 @@ public
       @z = z
     end
 
+    def to_element_s
+      "[#{@x}, #{@y}, #{@z}]"
+    end
+
+    def to_s
+      "Vector3" + to_element_s
+    end
+
     # [Input]
     #  _rhs_ should be Vector3.
     # [Output]
-    #  return Boolean
+    #  return true if rhs equals myself.
     def ==(rhs)
       equals_inner(rhs)
     end

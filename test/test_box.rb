@@ -10,6 +10,10 @@ class BoxTestCase < MiniTest::Unit::TestCase
     @box = Box.new(Vector3.new(-3,2,5), Vector3.new(2,-2.5, 0))
   end
 
+  def test_to_s
+    assert_equal( "Box[min[-3, -2.5, 0], max[2, 2, 5]]", @box.to_s)
+  end
+
   def test_initalize
     assert_equal(0, @box_default.min_point.x)
     assert_equal(0, @box_default.min_point.y)

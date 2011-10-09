@@ -21,6 +21,10 @@ public
       @end_point  = end_point_arg
     end
 
+    def to_s
+      "FiniteLine[from#{start_point.to_element_s}, to#{end_point.to_element_s}]"
+    end
+
     # [Output]
     #  return direction as vector from start_point to end_point as Vector3
     def direction
@@ -105,7 +109,7 @@ private
       end
       return distance, closest_point, parameter
     end
-    
+
     def distance_to_line(target_infinite_line)
       self_infinite_line = Line.new(self.start_point, self.direction)
       distance, point1, point2, parameter1, parameter2 = self_infinite_line.distance(target_infinite_line)
@@ -123,7 +127,7 @@ private
         return distance_to_end_point, self.end_point, closest_point_to_end_point, 1.0, parameter_to_end_point
       end
     end
-    
+
     def distance_to_finite_line(target_finite_line)
       line1 = Line.new(self.start_point, self.direction)
       line2 = Line.new(target_finite_line.start_point, target_finite_line.direction)

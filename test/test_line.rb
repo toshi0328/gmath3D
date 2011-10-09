@@ -16,6 +16,11 @@ class LineTestCase < MiniTest::Unit::TestCase
     assert(Vector3.new(1,0,0) == lineDefault.direction )
   end
 
+  def test_to_s
+    line =  Line.new(Vector3.new(2.0, 3, 5), Vector3.new(1.0, 1.0, 1.0))
+    assert_equal("Line[point[2.0, 3, 5], vector[1.0, 1.0, 1.0]", line.to_s);
+  end
+
   def test_point
     base_point_tmp = Vector3.new(2.0, 3.0, 5.0)
     direction_tmp  = Vector3.new(1.0, 1.0, 0.0)

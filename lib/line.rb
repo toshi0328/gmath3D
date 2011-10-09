@@ -12,7 +12,7 @@ module GMath3D
     # [Input]
     #  _point_ and _direction_ should be Vector3.
     # [Output]
-    #  returns new instance of Line.
+    #  return new instance of Line.
     def initialize(point = Vector3.new(0.0,0.0,0.0), direction = Vector3.new(1.0,0.0,0.0))
       Util.check_arg_type(Vector3, point)
       Util.check_arg_type(Vector3, direction)
@@ -21,12 +21,16 @@ module GMath3D
       @direction  = direction
     end
 
+    def to_s
+      "Line[point#{@base_point.to_element_s}, vector#{@direction.to_element_s}"
+    end
+
     # [Input]
     #  _parameter_ should be Numeric.
     # [Output]
     #  return a point on line at input parameter position as Vector3
     def point(parameter)
-                  Util.check_arg_type(::Numeric, parameter)
+      Util.check_arg_type(::Numeric, parameter)
       @base_point + @direction*parameter
     end
 
@@ -78,8 +82,8 @@ module GMath3D
         vec_db = line2_point2 - line2_point1
         vec_ab = line2_point1 - line1_point1
 
-        abs_vec_db = vec_db.length*vec_db.length 
-        abs_vec_da = vec_da.length*vec_da.length 
+        abs_vec_db = vec_db.length*vec_db.length
+        abs_vec_da = vec_da.length*vec_da.length
 
         delta = (abs_vec_da*abs_vec_db - vec_da.dot( vec_db )*vec_da.dot( vec_db ))
 

@@ -20,6 +20,10 @@ public
       @vertices = Array.new([vertex1, vertex2, vertex3])
     end
 
+    def to_s
+      "Triangle[#{@vertices[0].to_element_s}, #{@vertices[1].to_element_s}, #{@vertices[2].to_element_s}]"
+    end
+
     # [Input]
     #  _parameter_ should be three element Array of Numeric.
     # [Output]

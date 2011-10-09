@@ -18,6 +18,10 @@ class PlaneTestCase < MiniTest::Unit::TestCase
     assert_equal(Geom.default_tolerance, @plane_default.tolerance)
   end
 
+  def test_to_s
+    assert_equal("Plane[point[0, 0, 1], normal[0.0, 0.0, 1.0]]", @plane.to_s)
+  end
+
   def test_distance_to_point
     target_point = Vector3.new(1,2,3)
     distance, closest_point = @plane.distance(target_point)

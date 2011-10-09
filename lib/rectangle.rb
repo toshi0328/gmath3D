@@ -27,6 +27,10 @@ public
       self.v_vector = v_vector_arg
     end
 
+    def to_s
+      "Rectangle[base#{@base_point.to_element_s}, u#{@u_vector.to_element_s}, v#{@v_vector.to_element_s}"
+    end
+
     # [Input]
     #  _u_, _v_ should be Numeric.
     # [Output]

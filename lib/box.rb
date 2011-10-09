@@ -28,6 +28,10 @@ public
       @max_point.z = [ point1.z, point2.z ].max
     end
 
+    def to_s
+      "Box[min#{min_point.to_element_s}, max#{max_point.to_element_s}]"
+    end
+
     def ==(rhs)
       equals_inner(rhs)
     end

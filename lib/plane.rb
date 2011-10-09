@@ -21,6 +21,10 @@ public
       @normal = normal.normalize()
     end
 
+    def to_s
+      "Plane[point#{@base_point.to_element_s}, normal#{@normal.to_element_s}]"
+    end
+
     # This function returns closest distance between Line and anothor element.
     # [Input]
     #  _target_ should be Vector3 or Line or FiniteLine or Plane.
@@ -35,6 +39,7 @@ public
     #   as [Numeric, Vector3, Vector3, Numeric].
     #  [in case _target_ is Plane]
     #   return "distance, intersect line" as [Numeric, Vector3].
+
     def distance(target)
       # with Point
       if(target.kind_of?(Vector3))
