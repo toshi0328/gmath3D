@@ -1,19 +1,40 @@
 require 'gmath3D'
 
 module GMath3D
+  #
+  # Plane represents a infinite plane on 3D space.
+  #
   class Plane < Geom
 public
     attr_accessor:base_point
     attr_accessor:normal
 
-    def initialize(base_point_arg = Vector3.new(), normal_arg = Vector3.new(0,0,1))
-      Util.check_arg_type(::Vector3, normal_arg)
-      Util.check_arg_type(::Vector3, base_point_arg)
+    # [Input]
+    #  _base_point_ and _normal_ should be Vector3.
+    # [Output]
+    #  returns new instance of Plane.
+    def initialize(base_point = Vector3.new(), normal = Vector3.new(0,0,1))
+      Util.check_arg_type(::Vector3, normal)
+      Util.check_arg_type(::Vector3, base_point)
       super()
-      @base_point = base_point_arg
-      @normal = normal_arg.normalize()
+      @base_point = base_point
+      @normal = normal.normalize()
     end
 
+    # This function returns closest distance between Line and anothor element.
+    # [Input]
+    #  _target_ should be Vector3 or Line or FiniteLine or Plane.
+    #
+    # [Output]
+    #  [in case _target_ is Vector3]
+    #   return "distance, closest point on myself" as [Numeric, Vector3].
+    #  [in case _target_ is Line]
+    #   return "distance, intersect point, parameter on tatget" as [Numeric, Vector3, Numeric].
+    #  [in case _target_ is FiniteLine]
+    #   return "distance, point on plane, point on target, parameter on target"
+    #   as [Numeric, Vector3, Vector3, Numeric].
+    #  [in case _target_ is Plane]
+    #   return "distance, intersect line" as [Numeric, Vector3].
     def distance(target)
       # with Point
       if(target.kind_of?(Vector3))
@@ -31,6 +52,10 @@ public
       Util.raise_argurment_error(target)
     end
 
+    # [Input]
+    #  _target_point_ should be Vector3.
+    # [Output]
+    #  retrun projected point on plane as Vector3.
     def project( target_point )
       Util.check_arg_type(::Vector3, target_point)
       distance, closest_point = self.distance( target_point )

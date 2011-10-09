@@ -1,24 +1,37 @@
 require 'gmath3D'
 
 module GMath3D
+  #
+  # Triangle represents a three edged finite plane on 3D space.
+  #
   class Triangle < Geom
 public
     attr_accessor:vertices
 
-    def initialize(vertex_arg1 = Vector3.new(), vertex_arg2 = Vector3.new(1,0,0), vertex_arg3 = Vector3.new(0,1,0))
-      Util.check_arg_type(::Vector3, vertex_arg1)
-      Util.check_arg_type(::Vector3, vertex_arg2)
-      Util.check_arg_type(::Vector3, vertex_arg3)
+    # [Input]
+    #  _vertex1_, _vertex2_, _vertex3_ should be Vector3.
+    # [Output]
+    #  return new instance of Triangle.
+    def initialize(vertex1 = Vector3.new(), vertex2 = Vector3.new(1,0,0), vertex3 = Vector3.new(0,1,0))
+      Util.check_arg_type(::Vector3, vertex1)
+      Util.check_arg_type(::Vector3, vertex2)
+      Util.check_arg_type(::Vector3, vertex3)
       super()
-      @vertices = Array.new([vertex_arg1, vertex_arg2, vertex_arg3])
+      @vertices = Array.new([vertex1, vertex2, vertex3])
     end
 
+    # [Input]
+    #  _parameter_ should be three element Array of Numeric.
+    # [Output]
+    #  return point on triangle at parameter position as Vector3.
     def point( parameter )
       Util.check_arg_type(::Array, parameter )
       # TODO Argument check
       return self.vertices[0]*parameter[0] + self.vertices[1]*parameter[1] + self.vertices[2]*parameter[2]
     end
 
+    # [Output]
+    #  return edges as three element Array of Vector3.
     def edges
       return_edges = Array.new(3)
       return_edges[0] = FiniteLine.new(self.vertices[0], self.vertices[1])
@@ -27,6 +40,8 @@ public
       return return_edges
     end
 
+    # [Output]
+    #  return area as Numeric.
     def area
       vec1 = vertices[1] - vertices[0]
       vec2 = vertices[2] - vertices[0]
@@ -34,16 +49,24 @@ public
       return outer_product.length / 2.0
     end
 
+    # [Output]
+    #  return center point as Vector3.
     def center
       return vertices.avg
     end
 
+    # [Output]
+    #  return normal vector as Vector3.
     def normal
       vec1 = self.vertices[1] - self.vertices[0]
       vec2 = self.vertices[2] - self.vertices[0]
       return (vec1.cross(vec2).normalize)
     end
 
+    # [Input]
+    #  _check_point_ should be Vector3.
+    # [Output]
+    #  return barycentric_coordinate on check_point as three element Array of Numeric.
     def barycentric_coordinate( check_point )
       Util.check_arg_type(::Vector3, check_point)
 
@@ -95,6 +118,10 @@ public
       return b;
     end
 
+    # [Input]
+    #  _target_ shold be Vector3.
+    # [Output]
+    #  return "distance, point on triangle" as [Numeric, Vector3].
     def distance(target)
       # with Point
       if(target.kind_of?(Vector3))
@@ -106,7 +133,11 @@ public
       Util.raise_argurment_error(target)
     end
 
-    def contains( check_point )
+    # [Input]
+    #  _check_point_ shold be Vector3.
+    # [Output]
+    #  return true if triangle contains _check_point_.
+    def contains?( check_point )
       Util.check_arg_type(Vector3, check_point )
       plane = Plane.new( vertices[0], self.normal)
       distance, projected_point = plane.distance(check_point)
@@ -117,11 +148,12 @@ public
       end
       return true
     end
+
 private
     def distance_to_point(target_point)
       plane = Plane.new( vertices[0], self.normal)
       distance, projected_point = plane.distance(target_point)
-      if( self.contains(projected_point))
+      if( self.contains?(projected_point))
         return distance, projected_point
       end
       #check distance to FiniteLines

@@ -1,11 +1,19 @@
 require 'gmath3D'
 
 module GMath3D
+  #
+  # Box represents an axitially aligned box on 3D space.
+  #
   class Box < Geom
 public
     attr_accessor :min_point
     attr_accessor :max_point
 
+    # [Input]
+    #  _point1_ and _point2_ should be Vector3.
+    #  Each points are opposing corners.
+    # [Output]
+    #  return new instance of Box.
     def initialize(point1 = Vector3.new(0,0,0), point2 = Vector3.new(1,1,1))
       Util.check_arg_type(Vector3, point1)
       Util.check_arg_type(Vector3, point2)
@@ -23,18 +31,29 @@ public
     def ==(rhs)
       equals_inner(rhs)
     end
+
+    # [Input]
+    #  _rhs_ shold be Vector3 or Box or Array of them.
+    # [Output]
+    #  return added result as Box.
     def +(rhs)
       add(rhs)
     end
 
+    # [Output]
+    #  return cente point of Box as Vector3.
     def center
       return (@min_point + @max_point) * 0.5
     end
 
+    # [Output]
+    #  return x length, y lenght and z length as [Numeric, Numeric, Numeric]
     def length
       return max_point.x - min_point.x, max_point.y - min_point.y, max_point.z - min_point.z
     end
 
+    # [Output]
+    #  return volume of Box as Numeric.
     def volume
       width, height, depth = self.length
       return width*height*depth

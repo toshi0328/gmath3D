@@ -109,13 +109,13 @@ class TriangleTestCase < MiniTest::Unit::TestCase
 
   def test_contains
     check_point = @triangle.center + @triangle.normal*3.0
-    assert( !@triangle.contains( check_point) )
-    assert( @triangle.contains( @triangle.center) )
-    assert( @triangle.contains( Vector3.new( 1,3,2)))
-    assert( @triangle.contains( Vector3.new(-1,3,0)))
-    assert( @triangle_default.contains( Vector3.new( 0.5, 0.5, 0.0 ) ))
-    assert( !@triangle_default.contains( Vector3.new( -1.0, 2.0, 0.0 )))
-    assert( !@triangle_default.contains( Vector3.new( 1.0, 1.0, 0.0 )))
+    assert( !@triangle.contains?( check_point) )
+    assert( @triangle.contains?( @triangle.center) )
+    assert( @triangle.contains?( Vector3.new( 1,3,2)))
+    assert( @triangle.contains?( Vector3.new(-1,3,0)))
+    assert( @triangle_default.contains?( Vector3.new( 0.5, 0.5, 0.0 ) ))
+    assert( !@triangle_default.contains?( Vector3.new( -1.0, 2.0, 0.0 )))
+    assert( !@triangle_default.contains?( Vector3.new( 1.0, 1.0, 0.0 )))
   end
 
   def test_distance_to_point

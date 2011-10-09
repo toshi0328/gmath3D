@@ -18,6 +18,10 @@ class Vector3TestCase < MiniTest::Unit::TestCase
     assert_equal(3.0, @vector.z)
 
     assert_equal(Geom.default_tolerance, @vector.tolerance)
+
+    assert_raises ArgumentError do
+      invalidResult = Vector3.new( "hoge" )
+    end
   end
 
   def test_assign_value

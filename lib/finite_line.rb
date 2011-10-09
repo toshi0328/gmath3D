@@ -1,11 +1,18 @@
 require 'gmath3D'
 
 module GMath3D
+  #
+  # FiniteLine represents a finite line on 3D space.
+  #
   class FiniteLine < Geom
 public
     attr_accessor :start_point
     attr_accessor :end_point
 
+    # [Input]
+    #  _start_point_arg_ and _end_point_arg_ should be Vector3.
+    # [Output]
+    #  return new instance as FiniteLine
     def initialize(start_point_arg = Vector3.new(0.0,0.0,0.0), end_point_arg = Vector3.new(1.0,0.0,0.0))
       Util.check_arg_type(Vector3, start_point_arg)
       Util.check_arg_type(Vector3, end_point_arg)
@@ -14,10 +21,16 @@ public
       @end_point  = end_point_arg
     end
 
+    # [Output]
+    #  return direction as vector from start_point to end_point as Vector3
     def direction
       @end_point - @start_point
     end
 
+    # [Input]
+    #  _parameter_ should be Numeric.
+    # [Output]
+    #  return a point on line at input parameter position as Vector3
     def point(parameter)
       if(parameter < 0.0 or 1.0 < parameter)
         return nil
@@ -26,10 +39,22 @@ public
       end
     end
 
+    # [Output]
+    #  return length as Numeric
     def length
       @start_point.distance(@end_point)
     end
 
+    # This function returns closest distance between FiniteLine and anothor element.
+    # [Input]
+    #  _target_ should be Vector3 or Line or FiniteLine
+    #
+    # [Output]
+    #  [in case _target_ is Vector3]
+    #   return "distance, closest point on myself, parameter on myself" as [Numeric, Vector3, Numeric]
+    #  [in case _target_ is Line or FiniteLine]
+    #   return "distance, point on myself, point on target, parameter on myself, parameter on tatget" 
+    #   as [Numeric, Vector3, Vector3, Numeric, Numeric]
     def distance(target)
       # with Point
       if(target.kind_of?(Vector3))
@@ -58,7 +83,6 @@ public
       closest_point = points_ary[distance_ary.index(distance)]
       return distance, closest_point
     end
-
 private
     def distance_to_point(target)
       # get distance using infinite line
