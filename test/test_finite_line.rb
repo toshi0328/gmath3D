@@ -24,6 +24,15 @@ class FiniteLineTestCase < MiniTest::Unit::TestCase
     assert_equal("FiniteLine[from[1, 0, 2], to[1, -3.5, 2]]", line.to_s)
   end
 
+  def test_equals
+    assert_equal(FiniteLine.new(Vector3.new(1,2,3), Vector3.new(2,3,4)),
+                FiniteLine.new(Vector3.new(1.0,2.0,3.0), Vector3.new(2.0,3.0,4.0)))
+
+    assert(FiniteLine.new(Vector3.new(1,2,3), Vector3.new(2,3,4)) == FiniteLine.new(Vector3.new(1.0,2.0,3.0), Vector3.new(2.0,3.0,4.0)))
+    assert(FiniteLine.new(Vector3.new(1,2,3), Vector3.new(2,3,3)) != FiniteLine.new(Vector3.new(1.0,2.0,3.0), Vector3.new(2.0,3.0,4.0)))
+    assert(FiniteLine.new(Vector3.new(1,2,3), Vector3.new(2,3,4)) != FiniteLine.new(Vector3.new(2,3,4), Vector3.new(1,2,3)))
+  end
+
   def test_direction
     start_point_tmp = Vector3.new(1.0,  0.0, 2.0)
     end_point_tmp   = Vector3.new(1.0, -3.5, 1.0)

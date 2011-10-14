@@ -10,19 +10,31 @@ public
     attr_accessor :end_point
 
     # [Input]
-    #  _start_point_arg_ and _end_point_arg_ should be Vector3.
+    #  _start_point_ and _end_point_ should be Vector3.
     # [Output]
     #  return new instance as FiniteLine
-    def initialize(start_point_arg = Vector3.new(0.0,0.0,0.0), end_point_arg = Vector3.new(1.0,0.0,0.0))
-      Util.check_arg_type(Vector3, start_point_arg)
-      Util.check_arg_type(Vector3, end_point_arg)
+    def initialize(start_point = Vector3.new(0.0,0.0,0.0), end_point = Vector3.new(1.0,0.0,0.0))
+      Util.check_arg_type(Vector3, start_point)
+      Util.check_arg_type(Vector3, end_point)
       super()
-      @start_point = start_point_arg
-      @end_point  = end_point_arg
+      @start_point = start_point
+      @end_point  = end_point
     end
 
     def to_s
       "FiniteLine[from#{start_point.to_element_s}, to#{end_point.to_element_s}]"
+    end
+
+    # [Input]
+    #  _rhs_ should be FiniteLine.
+    # [Output]
+    #  return true if rhs equals myself.
+    def ==(rhs)
+      return false if rhs == nil
+      Util.check_arg_type(FiniteLine, rhs)
+      return false if( self.start_point != rhs.start_point)
+      return false if( self.end_point != rhs.end_point)
+      return true
     end
 
     # [Output]
