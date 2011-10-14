@@ -123,16 +123,19 @@ public
     end
 
     # [Input]
-    #  _target_ shold be Vector3.
+    #  _target_ shold be Vector3 or Line.
     # [Output]
-    #  return "distance, point on triangle" as [Numeric, Vector3].
+    #  [In case _target_ is Vector3]
+    #   return "distance, point on triangle" as [Numeric, Vector3].
+    #  [In case _target_ is Line]
+    #   return "distance, point on tirangle, point on line, parameter on line" as [Numeric, Vector3, Vector3, Numeric].
     def distance(target)
       # with Point
       if(target.kind_of?(Vector3))
         return distance_to_point(target)
       elsif(target.kind_of?(Line))
-        #with Line
-#        return distance_to_line(target)
+      #with Line
+        return distance_to_line(target)
       end
       Util.raise_argurment_error(target)
     end
@@ -163,6 +166,27 @@ private
       #check distance to FiniteLines
       finite_lines = self.edges
       return FiniteLine.ary_distanc_to_point(finite_lines, target_point)
+    end
+
+    def distance_to_line(target_line)
+      plane = Plane.new( vertices[0], self.normal )
+      distance, point_on_plane, parameter_on_line = plane.distance( target_line )
+      if( point_on_plane == nil)
+        # parallel case
+        # check distance to FiniteLines
+        finite_lines = self.edges
+        distance, point_on_edge, point_on_target, param_on_finiteline, param_on_target =
+          FiniteLine.ary_distance_to_line(finite_lines, target_line)
+        return distance, nil, nil, nil
+      end
+      if( self.contains?(point_on_plane) )
+        return distance, point_on_plane, point_on_plane, parameter_on_line
+      end
+      # check distance to FiniteLines
+      finite_lines = self.edges
+      distance, point_on_edge, point_on_target, param_on_finiteline, param_on_target =
+        FiniteLine.ary_distance_to_line(finite_lines, target_line)
+      return distance, point_on_edge, point_on_target, param_on_target
     end
   end
 end

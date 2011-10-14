@@ -147,4 +147,54 @@ class TriangleTestCase < MiniTest::Unit::TestCase
     assert_in_delta(0, distance, @triangle_default.tolerance)
     assert_equal(@triangle_default.center, point_on_triangle)
   end
+
+  def test_distance_to_line
+    # on inside
+    line = Line.new(Vector3.new(0,3,-1), Vector3.new(0,0,4))
+    distance, point_on_triangle, point_on_line, param_on_line = @triangle.distance(line)
+    assert_equal(0, distance)
+    assert_equal(Vector3.new(0,3,1), point_on_triangle)
+    assert_equal(Vector3.new(0,3,1), point_on_line)
+    assert_in_delta(0.5, param_on_line, line.tolerance)
+
+    # on edge
+    line = Line.new(Vector3.new(1,3,-1), Vector3.new(0,0,4))
+    distance, point_on_triangle, point_on_line, param_on_line = @triangle.distance(line)
+    assert_equal(0, distance)
+    assert_equal(Vector3.new(1,3,2), point_on_triangle)
+    assert_equal(Vector3.new(1,3,2), point_on_line)
+    assert_in_delta(0.75, param_on_line, line.tolerance)
+
+    # on vertex
+    line = Line.new(Vector3.new(-1,3,0), Vector3.new(1,1,2))
+    distance, point_on_triangle, point_on_line, param_on_line = @triangle.distance(line)
+    assert_equal(0, distance)
+    assert_equal(Vector3.new(-1,3,0), point_on_triangle)
+    assert_equal(Vector3.new(-1,3,0), point_on_line)
+    assert_in_delta(0.0, param_on_line, line.tolerance)
+
+    # closest point is out of triangle1
+    line = Line.new(Vector3.new(2,3,0), Vector3.new(0,0,4))
+    distance, point_on_triangle, point_on_line, param_on_line = @triangle.distance(line)
+    assert_equal(1, distance)
+    assert_equal(Vector3.new(1,3,2), point_on_triangle)
+    assert_equal(Vector3.new(2,3,2), point_on_line)
+    assert_in_delta(0.5, param_on_line, line.tolerance)
+
+    # closest point is out of triangle2
+    line = Line.new(Vector3.new(-2,3,-1), Vector3.new(0,0,1))
+    distance, point_on_triangle, point_on_line, param_on_line = @triangle.distance(line)
+    assert_equal(1, distance)
+    assert_equal(Vector3.new(-1,3,0), point_on_triangle)
+    assert_equal(Vector3.new(-2,3,0), point_on_line)
+    assert_in_delta(1, param_on_line, line.tolerance)
+
+    # parallel case
+    line = Line.new(Vector3.new(1,0,4), Vector3.new(0,6,0))
+    distance, point_on_triangle, point_on_line, param_on_line = @triangle.distance(line)
+    assert_equal(2, distance)
+    assert_equal(nil, point_on_triangle)
+    assert_equal(nil, point_on_line)
+    assert_equal(nil, param_on_line)
+  end
 end

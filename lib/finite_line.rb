@@ -87,6 +87,30 @@ public
       closest_point = points_ary[distance_ary.index(distance)]
       return distance, closest_point
     end
+
+    def self.ary_distance_to_line(finite_lines, target_line)
+      Util.check_arg_type(::Array, finite_lines)
+      Util.check_arg_type(Line, target_line)
+      distance_ary = Array.new(0)
+      point_on_target_ary = Array.new(0)
+      point_on_finite_line_ary = Array.new(0)
+      param_on_target_ary = Array.new(0)
+      param_on_finite_line_ary = Array.new(0)
+      finite_lines.each do | item |
+        distance, point_on_myself, point_on_target, parameter_on_myself, parameter_on_tatget = item.distance(target_line)
+        distance_ary.push(distance)
+        point_on_target_ary.push(point_on_target)
+        point_on_finite_line_ary.push(point_on_myself)
+        param_on_target_ary.push(parameter_on_tatget)
+        param_on_finite_line_ary.push(parameter_on_myself)
+      end
+      distance = distance_ary.min
+      point_on_finiteline = point_on_finite_line_ary[distance_ary.index(distance)]
+      point_on_target = point_on_target_ary[distance_ary.index(distance)]
+      param_on_finiteline = param_on_finite_line_ary[distance_ary.index(distance)]
+      param_on_target = param_on_target_ary[distance_ary.index(distance)]
+      return distance, point_on_finiteline, point_on_target, param_on_finiteline, param_on_target
+    end
 private
     def distance_to_point(target)
       # get distance using infinite line
