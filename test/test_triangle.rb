@@ -197,4 +197,60 @@ class TriangleTestCase < MiniTest::Unit::TestCase
     assert_equal(nil, point_on_line)
     assert_equal(nil, param_on_line)
   end
+
+  def test_distance_to_plane
+    # intersect case
+    plane = Plane.new(Vector3.new(0,0,1), Vector3.new(1,0,0))
+    distance, intersect_line, point_on_triangle, point_on_plane = @triangle.distance(plane)
+    assert_equal( 0, distance )
+    point1 = Vector3.new(0,2.5,1)
+    point2 = Vector3.new(0,3.5,1)
+    assert( FiniteLine.new(point1, point2) == intersect_line || FiniteLine.new(point2, point1) == intersect_line)
+    assert_equal( nil, point_on_triangle )
+    assert_equal( nil, point_on_plane )
+
+    # contains edge
+    plane = Plane.new(Vector3.new(1,0,1), Vector3.new(-1,0,0))
+    distance, intersect_line, point_on_triangle, point_on_plane = @triangle.distance(plane)
+    assert_equal( 0, distance )
+    point1 = Vector3.new(1,2,2)
+    point2 = Vector3.new(1,4,2)
+    assert( FiniteLine.new(point1, point2) == intersect_line || FiniteLine.new(point2, point1) == intersect_line)
+    assert_equal( nil, point_on_triangle )
+    assert_equal( nil, point_on_plane )
+
+    # contains vertex
+    plane = Plane.new(Vector3.new(-1,0,1), Vector3.new(1,0,0))
+    distance, intersect_line, point_on_triangle, point_on_plane = @triangle.distance(plane)
+    assert_equal( 0, distance )
+    assert_equal( nil, intersect_line)
+    assert_equal( Vector3.new(-1,3,0), point_on_triangle )
+    assert_equal( Vector3.new(-1,3,0), point_on_plane )
+
+    # closeing point is outside of triangle
+    plane = Plane.new(Vector3.new(-2,0,0), Vector3.new(-1,0,0))
+    distance, intersect_line, point_on_triangle, point_on_plane = @triangle.distance(plane)
+    assert_equal( 1, distance )
+    assert_equal( nil, intersect_line)
+    assert_equal( Vector3.new(-1,3,0), point_on_triangle )
+    assert_equal( Vector3.new(-2,3,0), point_on_plane )
+
+    # parallel to plane
+    plane = Plane.new(Vector3.new(0,0,4), Vector3.new(0,0,1))
+    distance, intersect_line, point_on_triangle, point_on_plane = @triangle_default.distance(plane)
+    assert_equal( 4, distance )
+    assert_equal( nil, intersect_line)
+    assert_equal( nil, point_on_triangle )
+    assert_equal( nil, point_on_plane )
+
+    # parallel to edge
+    plane = Plane.new(Vector3.new(3.5,0,3), Vector3.new(-1,0,0))
+    distance, closest_line, point_on_triangle, point_on_plane = @triangle.distance(plane)
+    assert_equal( 2.5, distance )
+    point1 = Vector3.new(1,2,2)
+    point2 = Vector3.new(1,4,2)
+    assert( FiniteLine.new(point1, point2) == closest_line || FiniteLine.new(point2, point1) == closest_line)
+    assert_equal( nil, point_on_triangle )
+    assert_equal( nil, point_on_plane )
+  end
 end
