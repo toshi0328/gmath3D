@@ -4,6 +4,7 @@ require 'util'
 require 'geom'
 require 'vector3'
 require 'quat'
+require 'matrix33'
 
 require 'line'
 require 'finite_line'
