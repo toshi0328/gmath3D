@@ -43,46 +43,42 @@ class MatrixTestCase < MiniTest::Unit::TestCase
     assert_equal(Vector3.new(16,2,22), ans2)
   end
 
-  def test_rotate
+  def test_from_axis
     local_point = Vector3.new(1,0,1)
     angle = 45*Math::PI/180
     local_cod_x = Vector3.new(Math.cos(angle), Math.sin(angle),0)
-
     x_vec = Vector3.new(1,0,0)
     diff_angle = x_vec.angle(local_cod_x)
-    axis = x_vec.cross(local_cod_x)
-    axis = axis.normalize()
+    axis = x_vec.cross(local_cod_x).normalize()
 
     rotate_matrix = Matrix.from_axis(axis, diff_angle)
     rotated_point = rotate_matrix.inv * local_point
     assert_equal(Vector3.new(Math.sqrt(2)/2, Math.sqrt(2)/2, 1), rotated_point)
 
-=begin
+    local_point = Vector3.new(1,0,0)
+    local_cod_x = Vector3.new(1,1,1).normalize()
+    diff_angle = x_vec.angle(local_cod_x)
+    axis = x_vec.cross(local_cod_x).normalize()
 
-	//////////////////////
-	localPoint = gcnew RMath::CPoint3D(1.0,0.0,0.0) ;
-	// ローカル座標の傾き
-	localCodX = gcnew RMath::CVector3D(1.0, 1.0, 1.0) ;
-	localCodX->Normalize();
+    assert_equal(Math::PI/2, local_cod_x.angle(axis))
+    rotate_matrix = Matrix.from_axis(axis, diff_angle)
+    rotated_point = rotate_matrix.inv()*local_point
 
-	// 任意軸周りの回転行列を作る
-	diffAngle = Xvec->GetAngle(localCodX);
-	double diffAngleDeg = diffAngle * 180.0 / System::Math::PI ;
+    assert_in_delta(rotated_point.x, rotated_point.y, rotated_point.tolerance)
+    assert_in_delta(rotated_point.x, rotated_point.z, rotated_point.tolerance)
+  end
 
-	axis = Xvec->Cross(localCodX) ;
-	axis->Normalize() ;
+  def test_from_quat
+    axis = Vector3.new(1,2,4).normalize()
+    angle = 46*Math::PI/180
+    quat = Quat.from_axis(axis, angle)
+    mat_expected = Matrix.from_axis(axis, angle)
+    mat_actual = Matrix.from_quat(quat)
 
-// ちょっと確認
-	double angleBetweenAxisAndLocalX = localCodX->GetAngle(axis);
-	TEST_ASSERT_EQUALS_DOUBLE( System::Math::PI/2.0 , angleBetweenAxisAndLocalX, s_epsilon ) ;
-
-	roteteMatrix = gcnew RMath::CMatrix33(axis, diffAngle) ; // →基準点をローカル点に転写する行列
-
-	// ローカル点を回転する
-	rotetedPoint = roteteMatrix->GetInverse() * (localPoint) ;
-
-	TEST_ASSERT_EQUALS_DOUBLE( rotetedPoint->X , rotetedPoint->Y, s_epsilon ) ;
-	TEST_ASSERT_EQUALS_DOUBLE( rotetedPoint->X , rotetedPoint->Z, s_epsilon ) ;
-=end
+    [0,1,2].each do |i|
+      [0,1,2].each do |j|
+        assert_in_delta( mat_expected[i,j], mat_actual[i,j], 1e-8)
+      end
+    end
   end
 end
