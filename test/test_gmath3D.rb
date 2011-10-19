@@ -5,7 +5,7 @@ require 'test_geom'
 require 'test_util'
 require 'test_vector3'
 require 'test_quat'
-require 'test_matrix33'
+require 'test_matrix'
 
 require 'test_line'
 require 'test_finite_line'
