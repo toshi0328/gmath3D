@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{gmath3D}
-  s.version = "0.2.0"
+  s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Toshiyasu Shimizu"]
-  s.date = %q{2011-10-09}
+  s.date = %q{2011-10-19}
   s.description = %q{This library defines 3D geometric elements(point, line, plane etc..). It can get two(or more) elements relation, like distance between two elements.}
   s.email = %q{toshi0328@gmail.com}
   s.extra_rdoc_files = [
@@ -30,7 +30,9 @@ Gem::Specification.new do |s|
     "lib/geom.rb",
     "lib/gmath3D.rb",
     "lib/line.rb",
+    "lib/matrix_util.rb",
     "lib/plane.rb",
+    "lib/quat.rb",
     "lib/rectangle.rb",
     "lib/triangle.rb",
     "lib/util.rb",
@@ -39,9 +41,10 @@ Gem::Specification.new do |s|
     "test/test_box.rb",
     "test/test_finite_line.rb",
     "test/test_geom.rb",
-    "test/test_gmath3D.rb",
     "test/test_line.rb",
+    "test/test_matrix_util.rb",
     "test/test_plane.rb",
+    "test/test_quat.rb",
     "test/test_rectangle.rb",
     "test/test_triangle.rb",
     "test/test_util.rb",
