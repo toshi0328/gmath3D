@@ -123,16 +123,24 @@ public
     end
 
     # [Input]
-    #  _target_ shold be Vector3.
+    #  _target_ shold be Vector3 or Line or Plane.
     # [Output]
-    #  return "distance, point on triangle" as [Numeric, Vector3].
+    #  [In case _target_ is Vector3]
+    #   return "distance, point on triangle" as [Numeric, Vector3].
+    #  [In case _target_ is Line]
+    #   return "distance, point on tirangle, point on line, parameter on line" as [Numeric, Vector3, Vector3, Numeric].
+    #  [In case _target_ is Plane]
+    #   return "distance, intersect_line(or closet edge), point_on_triangle, point_on_plane" as [Numeric, Vector3, Vector3, Vector3].
     def distance(target)
       # with Point
       if(target.kind_of?(Vector3))
         return distance_to_point(target)
       elsif(target.kind_of?(Line))
-        #with Line
-#        return distance_to_line(target)
+      #with Line
+        return distance_to_line(target)
+      elsif(target.kind_of?(Plane))
+      #with Plane
+        return distance_to_plane(target)
       end
       Util.raise_argurment_error(target)
     end
@@ -164,6 +172,67 @@ private
       finite_lines = self.edges
       return FiniteLine.ary_distanc_to_point(finite_lines, target_point)
     end
+
+    def distance_to_line(target_line)
+      plane = Plane.new( vertices[0], self.normal )
+      distance, point_on_plane, parameter_on_line = plane.distance( target_line )
+      if( point_on_plane == nil)
+        # parallel case
+        # check distance to FiniteLines
+        finite_lines = self.edges
+        distance, point_on_edge, point_on_target, param_on_finiteline, param_on_target =
+          FiniteLine.ary_distance_to_line(finite_lines, target_line)
+        return distance, nil, nil, nil
+      end
+      if( self.contains?(point_on_plane) )
+        return distance, point_on_plane, point_on_plane, parameter_on_line
+      end
+      # check distance to FiniteLines
+      finite_lines = self.edges
+      distance, point_on_edge, point_on_target, param_on_finiteline, param_on_target =
+        FiniteLine.ary_distance_to_line(finite_lines, target_line)
+      return distance, point_on_edge, point_on_target, param_on_target
+    end
+
+    def distance_to_plane(target_plane)
+      triangle_plane = Plane.new( vertices[0], self.normal )
+      distance, intersect_line_each_plane = triangle_plane.distance( target_plane )
+      if( intersect_line_each_plane == nil )
+        return distance, nil, nil, nil
+      end
+
+      # check distance from intersection and each edge.
+      distance_zero_count = 0
+      distance_info = Array.new(0)
+      prallel_edge_ary = Array.new(0)
+      self.edges.each do |edge|
+        distance, point_on_edge, point_on_line = edge.distance( intersect_line_each_plane)
+        if point_on_edge != nil && point_on_line != nil
+          distance_info.push([distance, point_on_edge, point_on_line])
+          if distance <= self.tolerance
+            distance_zero_count += 1
+          end
+        else
+          prallel_edge_ary.push( edge )
+        end
+      end
+      distance_info.sort!{|a,b| a[0] <=> b[0]}
+      # distance, intersect_line(or closet edge), point_on_triangle, point_on_plan
+      if (distance_zero_count == 2)
+        point1 = distance_info[0][1]
+        point2 = distance_info[1][1]
+        if point1.distance(point2) > self.tolerance
+          return 0.0, FiniteLine.new(point1, point2), nil, nil
+        end
+        return 0.0, nil, point1, point1
+      elsif (distance_zero_count == 0)
+        distance, closest_point_on_plane = target_plane.distance(distance_info[0][1])
+        if(distance_info[0][1] != distance_info[1][1])
+          return distance, FiniteLine.new(distance_info[0][1], distance_info[1][1]), nil, nil
+        end
+        return distance, nil, distance_info[0][1], closest_point_on_plane
+      end
+      return 0.0, nil, nil, nil
+    end
   end
 end
-

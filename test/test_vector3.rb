@@ -72,6 +72,8 @@ class Vector3TestCase < MiniTest::Unit::TestCase
     vector = Vector3.new(1.0 - floatingError2, 2.0 + floatingError2, 3.0)
     assert(@vector != vector)
 
+    assert_equal(Vector3.new(1,2,3), Vector3.new(1.0,2.0,3.0))
+
     #invlid value comparison
     assert(@vector != "string")
     assert(@vector != -4)

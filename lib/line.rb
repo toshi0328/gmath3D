@@ -9,6 +9,10 @@ module GMath3D
     attr_accessor :base_point
     attr_accessor :direction
 
+    def to_s
+      "Line[point#{@base_point.to_element_s}, vector#{@direction.to_element_s}"
+    end
+
     # [Input]
     #  _point_ and _direction_ should be Vector3.
     # [Output]
@@ -19,10 +23,6 @@ module GMath3D
       super()
       @base_point = point
       @direction  = direction
-    end
-
-    def to_s
-      "Line[point#{@base_point.to_element_s}, vector#{@direction.to_element_s}"
     end
 
     # [Input]
