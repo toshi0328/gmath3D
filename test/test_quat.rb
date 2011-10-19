@@ -28,26 +28,27 @@ class QuatTestCase < MiniTest::Unit::TestCase
     end
   end
 
-  def test_construct_from_axis
+  def test_from_axis
     axis = Vector3.new(1.0, 0.0, 0.0)
     rad = 30.0*Math::PI / 180
     rot_quat = Quat.from_axis(axis, rad)
-    assert_in_delta( Math.cos(rad/2.0), rot_quat.w, rot_quat.tolerance)
-    assert_in_delta( Math.sin(rad/2.0), rot_quat.x, rot_quat.tolerance)
-    assert_in_delta( 0.0, rot_quat.y, rot_quat.tolerance)
-    assert_in_delta( 0.0, rot_quat.z, rot_quat.tolerance)
+    assert_equal( Math.cos(rad/2.0), rot_quat.w)
+    assert_equal( Math.sin(rad/2.0), rot_quat.x)
+    assert_equal( 0.0, rot_quat.y)
+    assert_equal( 0.0, rot_quat.z)
   end
 
-  def test_construct_from_matrix
-   # TODO
+  def test_from_matrix
+    axis = Vector3.new(1,2,4).normalize()
+    angle = 46*Math::PI/180
+    mat = Matrix.from_axis(axis, angle)
+    quat_expected = Quat.from_axis(axis, angle)
+    quat_actual   = Quat.from_matrix(mat)
+    assert_equal(quat_expected, quat_actual)
   end
 
   def test_to_s
     assert_equal("Quat[2.0, 3.0, 4.0, 1.0]", @quat1.to_s)
-  end
-
-  def test_to_element_s
-    assert_equal("[6.0, 7.0, 8.0, 5.0]", @quat2.to_element_s)
   end
 
   def test_assign_value
@@ -76,17 +77,6 @@ class QuatTestCase < MiniTest::Unit::TestCase
     quat = Quat.new(2,3,4,1)
     assert(@quat1 == quat)
 
-    # Floating error check
-    floatingError = Geom.default_tolerance*0.1
-    quat = Quat.new( 2.0 + floatingError, 3.0, 4 - floatingError, 1)
-    assert(@quat1 == quat)
-
-    floatingError2 = Geom.default_tolerance*10.0
-    quat = Quat.new( 2.0 + floatingError2, 3.0, 4, 1 - floatingError2)
-    assert(@quat1 != quat)
-
-    assert_equal(Vector3.new(1,2,3), Vector3.new(1.0,2.0,3.0))
-
     #invlid value comparison
     assert(@quat1 != "string")
     assert(@quat1 != -4)
@@ -107,7 +97,7 @@ class QuatTestCase < MiniTest::Unit::TestCase
   end
 
   def test_add
-    # how to validate?
+    # implemented, but how to validate?
   end
 
   def test_add_invalid_value
@@ -142,7 +132,4 @@ class QuatTestCase < MiniTest::Unit::TestCase
     end
   end
 
-  def test_build_matrix
-    # TODO
-  end
 end

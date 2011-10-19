@@ -4,7 +4,7 @@ module GMath3D
   #
   # Quat represents quaternion.
   #
-  class Quat < Geom
+  class Quat
 public
     attr_accessor :x
     attr_accessor :y
@@ -42,6 +42,59 @@ public
       return Quat.new(x,y,z,w)
     end
 
+    # [Input]
+    #  _matrix_ should be Matrix which row and column size are 3.
+    # [Output]
+    #  return new instance of Quat.
+    def self.from_matrix(mat)
+      fourWSquaredMinus1 = mat[0,0] + mat[1,1] + mat[2,2]
+      fourXSquaredMinus1 = mat[0,0] - mat[1,1] - mat[2,2]
+      fourYSquaredMinus1 = mat[1,1] - mat[0,0] - mat[2,2]
+      fourZSquaredMinus1 = mat[2,2] - mat[0,0] - mat[1,1]
+
+      biggestIndex = 0
+      fourBiggestSquaredMinus1 = fourWSquaredMinus1
+      if(fourXSquaredMinus1 > fourBiggestSquaredMinus1)
+        fourBiggestSquaredMinus1 = fourXSquaredMinus1
+        biggestIndex = 1
+      end
+      if(fourYSquaredMinus1 > fourBiggestSquaredMinus1)
+        fourBiggestSquaredMinus1 = fourYSquaredMinus1
+        biggestIndex = 2
+      end
+      if(fourZSquaredMinus1 > fourBiggestSquaredMinus1)
+        fourBiggestSquaredMinus1 = fourZSquaredMinus1
+        biggestIndex = 3
+      end
+
+      biggestVal = Math.sqrt(fourBiggestSquaredMinus1 + 1.0) * 0.5
+      multi = 0.25 / biggestVal
+
+      case biggestIndex
+      when 0
+        w = biggestVal
+        x = (mat[1,2] - mat[2,1]) *multi
+        y = (mat[2,0] - mat[0,2]) *multi
+        z = (mat[0,1] - mat[1,0]) *multi
+      when 1
+        x = biggestVal;
+        w = (mat[1,2] - mat[2,1]) *multi
+        y = (mat[0,1] + mat[1,0]) *multi
+        z = (mat[2,0] + mat[0,2]) *multi
+      when 2
+        y = biggestVal;
+        w = (mat[2,0] - mat[0,2]) *multi
+        x = (mat[0,1] + mat[1,0]) *multi
+        z = (mat[1,2] + mat[2,1]) *multi
+      when 3
+        z = biggestVal;
+        w = (mat[0,1] - mat[1,0]) *multi
+        x = (mat[2,0] + mat[0,2]) *multi
+        y = (mat[1,2] + mat[2,1]) *multi
+      end
+      return Quat.new(x,y,z,w)
+    end
+
     def to_element_s
       "[#{@x}, #{@y}, #{@z}, #{@w}]"
     end
@@ -56,10 +109,10 @@ public
     #  return true if rhs equals myself.
     def ==(rhs)
       return false if( !rhs.kind_of?(Quat) )
-      return false if((self.x - rhs.x).abs > @tolerance)
-      return false if((self.y - rhs.y).abs > @tolerance)
-      return false if((self.z - rhs.z).abs > @tolerance)
-      return false if((self.w - rhs.w).abs > @tolerance)
+      return false if(self.x != rhs.x)
+      return false if(self.y != rhs.y)
+      return false if(self.z != rhs.z)
+      return false if(self.w != rhs.w)
       true
     end
 
