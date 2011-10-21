@@ -51,7 +51,7 @@ public
     end
 
     # [Output]
-    #  return x length, y lenght and z length as [Numeric, Numeric, Numeric]
+    #  return width, height, depth as [Numeric, Numeric, Numeric]
     def length
       return max_point.x - min_point.x, max_point.y - min_point.y, max_point.z - min_point.z
     end

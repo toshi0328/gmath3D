@@ -53,6 +53,17 @@ public
     end
 
     # [Output]
+    #  return vertices of rectangle as Array of Vector3.
+    def vertices
+      vertices = Array.new(4)
+      vertices[0] = base_point
+      vertices[1] = base_point+u_vector
+      vertices[2] = base_point+u_vector+v_vector
+      vertices[3] = base_point+v_vector
+      return vertices
+    end
+
+    # [Output]
     #  return normal of rectangle as Vector3.
     def normal
       return (u_vector.cross(v_vector)).normalize()

@@ -52,6 +52,15 @@ class RectangleTestCase < MiniTest::Unit::TestCase
     assert_equal(Vector3.new(1,2  ,3), edges[3].end_point)
   end
 
+  def test_vertices
+    vertices = @rectangle.vertices
+    assert_equal(4, vertices.size)
+    assert_equal(Vector3.new(1,2,3), vertices[0])
+    assert_equal(Vector3.new(1,1.5,3), vertices[1])
+    assert_equal(Vector3.new(1,1.5,5), vertices[2])
+    assert_equal(Vector3.new(1,2,5), vertices[3])
+  end
+
   def test_normal
     assert_equal(Vector3.new(-1,0,0), @rectangle.normal)
     assert_equal(Vector3.new(0,0,1), @rectangle_default.normal)

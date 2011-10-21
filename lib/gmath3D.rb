@@ -12,3 +12,5 @@ require 'plane'
 require 'rectangle'
 require 'triangle'
 require 'box'
+
+require 'tri_mesh'
