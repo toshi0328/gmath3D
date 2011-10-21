@@ -132,4 +132,13 @@ class QuatTestCase < MiniTest::Unit::TestCase
     end
   end
 
+  def test_normalize
+    quat = Quat.new(-1,2,1,1)
+    quat = quat.normalize()
+    assert_equal(-1/Math.sqrt(6), quat.x)
+    assert_equal( 2/Math.sqrt(6), quat.y)
+    assert_equal( 1/Math.sqrt(6), quat.z)
+    assert_equal( 1/Math.sqrt(6), quat.w)
+  end
+
 end
