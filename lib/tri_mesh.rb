@@ -76,6 +76,19 @@ module GMath3D
     def to_s
       "TriMesh[triangle_count:#{tri_indeces.size}, vertex_count:#{vertices.size}]"
     end
+
+    # [Output]
+    #  return Array of Triangle.
+    def triangles
+      tris = Array.new(tri_indeces.size)
+      i = 0
+      tri_indeces.each do |tri_index|
+        tris[i] =  Triangle.new(vertices[tri_index[0]], vertices[tri_index[1]], vertices[tri_index[2]])
+        i += 1
+      end
+      return tris
+    end
+
   end
 end
 
