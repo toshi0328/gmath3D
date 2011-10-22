@@ -37,6 +37,15 @@ public
     # [Output]
     #  return true if rhs equals myself.
     def ==(rhs)
+      return false if( !rhs.kind_of?(Vector3) )
+      equals_inner(rhs)
+    end
+
+    # For using Vector3 as hash key
+    def hash
+      [@x.to_f, @y.to_f, @z.to_f].hash
+    end
+    def eql?(rhs)
       equals_inner(rhs)
     end
 
@@ -169,7 +178,6 @@ public
 
     private
     def equals_inner(rhs)
-      return false if( !rhs.kind_of?(Vector3) )
       return false if((self.x - rhs.x).abs > @tolerance) 
       return false if((self.y - rhs.y).abs > @tolerance) 
       return false if((self.z - rhs.z).abs > @tolerance) 

@@ -59,9 +59,11 @@ class Vector3TestCase < MiniTest::Unit::TestCase
     assert(@vector_init_zero != @vector)
 
     assert(@vector == @vector)
+    assert(@vector.eql?(@vector))
 
     vector = Vector3.new(1,2,3)
     assert(@vector == vector)
+    assert(@vector.eql?(vector))
 
     # Floating error check
     floatingError = Geom.default_tolerance*0.1
@@ -77,6 +79,28 @@ class Vector3TestCase < MiniTest::Unit::TestCase
     #invlid value comparison
     assert(@vector != "string")
     assert(@vector != -4)
+  end
+
+  def test_equ_hash
+    # in case use Vector3 as Key of hash...
+    # Vector3#eql? and Vector3#hash should be implement
+    hash = Hash.new()
+    vec = Vector3.new(1,2,3)
+    hash[vec] = 1
+    assert_equal(1, hash.keys.count)
+    assert_equal(1, hash[vec])
+
+    hash[vec] = 2
+    assert_equal(1, hash.keys.count)
+    assert_equal(2, hash[vec])
+
+    hash[Vector3.new(3,2,1)] = 3
+    assert_equal(2, hash.keys.count)
+    assert_equal(2, hash[vec])
+
+    hash[@vector] = 3
+    assert_equal(2, hash.keys.count)
+    assert_equal(3, hash[vec])
   end
 
   def test_add

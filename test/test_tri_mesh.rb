@@ -50,4 +50,20 @@ class TriMeshTestCase < MiniTest::Unit::TestCase
     assert_equal(Vector3.new(2,2,0), triangles[1].vertices[1])
     assert_equal(Vector3.new(0,2,0), triangles[1].vertices[2])
   end
+
+  def test_from_triangles
+    tris = Array.new(8)
+    tris[0] = Triangle.new( Vector3.new(0,0,0), Vector3.new(1,0,0), Vector3.new(0,1,1) )
+    tris[1] = Triangle.new( Vector3.new(1,0,0), Vector3.new(1,1,1), Vector3.new(0,1,1) )
+    tris[2] = Triangle.new( Vector3.new(1,0,0), Vector3.new(2,0,0), Vector3.new(1,1,1) )
+    tris[3] = Triangle.new( Vector3.new(2,0,0), Vector3.new(2,1,1), Vector3.new(1,1,1) )
+    tris[4] = Triangle.new( Vector3.new(0,1,1), Vector3.new(1,1,1), Vector3.new(0,2,2) )
+    tris[5] = Triangle.new( Vector3.new(1,1,1), Vector3.new(1,2,2), Vector3.new(0,2,2) )
+    tris[6] = Triangle.new( Vector3.new(1,1,1), Vector3.new(2,1,1), Vector3.new(1,2,2) )
+    tris[7] = Triangle.new( Vector3.new(2,1,1), Vector3.new(2,2,2), Vector3.new(1,2,2) )
+    trimesh_from_tris = TriMesh::from_triangles(tris)
+    assert_equal( 9, trimesh_from_tris.vertices.size)
+    assert_equal( 8, trimesh_from_tris.tri_indeces.size)
+  end
+
 end

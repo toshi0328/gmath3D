@@ -73,6 +73,37 @@ module GMath3D
       return TriMesh.new(rect.vertices, [[0,1,3], [1,2,3]])
     end
 
+    # [Input]
+    #  _tris_ is Array of Triangle object.
+    # [Output]
+    #  return new instance of TriMesh
+    def self.from_triangles(tris)
+      Util.check_arg_type(Array, tris)
+      tris.each do | item |
+        Util.check_arg_type(Triangle, item)
+      end
+
+      tri_idx = 0
+      vert_tris_map = Hash.new([])
+      tris.each do | triangle |
+        triangle.vertices.each do | vertex |
+          vert_tris_map[vertex] = vert_tris_map[vertex].push(tri_idx)
+        end
+        tri_idx += 1
+      end
+      tri_indeces = Array.new( tris.size )
+      vertices = vert_tris_map.keys
+
+      vert_idx = 0
+      vert_tris_map.each do | vertex, tri_index_ary |
+        tri_index_ary.each do | tri_index |
+          tri_indeces[tri_index] = Array.new() if( !tri_indeces[tri_index] )
+          tri_indeces[tri_index].push(tri_index)
+        end
+      end
+      return TriMesh.new( vertices, tri_indeces )
+    end
+
     def to_s
       "TriMesh[triangle_count:#{tri_indeces.size}, vertex_count:#{vertices.size}]"
     end
