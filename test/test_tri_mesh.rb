@@ -49,6 +49,14 @@ class TriMeshTestCase < MiniTest::Unit::TestCase
     assert_equal(Vector3.new(2,0,0), triangles[1].vertices[0])
     assert_equal(Vector3.new(2,2,0), triangles[1].vertices[1])
     assert_equal(Vector3.new(0,2,0), triangles[1].vertices[2])
+
+    triangle = tri_mesh.triangle(1)
+    assert_equal(Vector3.new(2,0,0), triangle.vertices[0])
+    assert_equal(Vector3.new(2,2,0), triangle.vertices[1])
+    assert_equal(Vector3.new(0,2,0), triangle.vertices[2])
+
+    triangle = tri_mesh.triangle(3)
+    assert_equal(nil, triangle)
   end
 
   def test_from_triangles

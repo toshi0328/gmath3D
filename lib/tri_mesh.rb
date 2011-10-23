@@ -104,11 +104,34 @@ module GMath3D
         end
         vert_idx += 1
       end
+
+      # modify noamal direction
+      tri_idx = 0
+      tri_indeces.each do | tri_index_ary |
+        if ( tri_index_ary.size > 2 )
+          tmp_tri = Triangle.new(vertices[tri_index_ary[0]], vertices[tri_index_ary[1]], vertices[tri_index_ary[2]])
+          if( tmp_tri.normal.dot(tris[tri_idx].normal) < 0 )
+            tri_index_ary.reverse!
+          end
+        end
+        tri_idx += 1
+      end
+
       return TriMesh.new( vertices, tri_indeces )
     end
 
     def to_s
       "TriMesh[triangle_count:#{tri_indeces.size}, vertex_count:#{vertices.size}]"
+    end
+
+    # [Input]
+    #  _index_ is index of triangle.
+    # [Output]
+    #  return new instance of Triangle.
+    def triangle(index)
+      return nil if( index < 0 || @tri_indeces.size <= index )
+      tri_index = @tri_indeces[index]
+      return Triangle.new(vertices[tri_index[0]], vertices[tri_index[1]], vertices[tri_index[2]])
     end
 
     # [Output]
@@ -117,7 +140,7 @@ module GMath3D
       tris = Array.new(tri_indeces.size)
       i = 0
       tri_indeces.each do |tri_index|
-        tris[i] =  Triangle.new(vertices[tri_index[0]], vertices[tri_index[1]], vertices[tri_index[2]])
+        tris[i] =  self.triangle(i)
         i += 1
       end
       return tris
