@@ -60,6 +60,13 @@ class TriangleTestCase < MiniTest::Unit::TestCase
     assert_equal( Vector3.new(0,0,1) ,@triangle_default.normal )
   end
 
+  def test_reverse
+    current_normal = @triangle.normal()
+    reversed_normal = @triangle.reverse().normal()
+    assert( current_normal.parallel?(reversed_normal) )
+    assert( !current_normal.same_direction?(reversed_normal) )
+  end
+
   def test_center
     center = @triangle.center
     assert_in_delta( 0.333333333333333, center.x, @triangle.tolerance)

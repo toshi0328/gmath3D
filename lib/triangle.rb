@@ -67,6 +67,12 @@ public
       return (vec1.cross(vec2).normalize)
     end
 
+    # [Output]
+    #  return normal vector reversed triangle
+    def reverse()
+      return Triangle.new(@vertices[0], @vertices[2], @vertices[1])
+    end
+
     # [Input]
     #  _check_point_ should be Vector3.
     # [Output]
