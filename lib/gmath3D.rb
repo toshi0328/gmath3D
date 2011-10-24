@@ -13,4 +13,6 @@ require 'rectangle'
 require 'triangle'
 require 'box'
 
+require 'polyline'
+
 require 'tri_mesh'

@@ -74,4 +74,14 @@ class TriMeshTestCase < MiniTest::Unit::TestCase
     assert_equal( 8, trimesh_from_tris.tri_indeces.size)
   end
 
+  def test_from_convex_polyline
+    vertices = Array.new(6)
+    #TODO impliment!
+  end
+
+  def test_from_extruded_polyline
+    vertices = Array.new(6)
+    #TODO impliment!
+  end
+
 end
