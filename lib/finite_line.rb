@@ -21,6 +21,11 @@ public
       @end_point  = end_point
     end
 
+    def initialize_copy( original_obj )
+      @start_point = original_obj.start_point.dup
+      @end_point = original_obj.end_point.dup
+    end
+
     def to_s
       "FiniteLine[from#{start_point.to_element_s}, to#{end_point.to_element_s}]"
     end
@@ -31,7 +36,7 @@ public
     #  return true if rhs equals myself.
     def ==(rhs)
       return false if rhs == nil
-      Util.check_arg_type(FiniteLine, rhs)
+      return false if !rhs.kind_of?(FiniteLine)
       return false if( self.start_point != rhs.start_point)
       return false if( self.end_point != rhs.end_point)
       return true

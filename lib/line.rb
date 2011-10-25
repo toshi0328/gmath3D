@@ -25,6 +25,23 @@ module GMath3D
       @direction  = direction
     end
 
+    def initialize_copy( original_obj )
+      @base_point = original_obj.base_point.dup
+      @direction = original_obj.direction.dup
+    end
+
+    # [Input]
+    #  _rhs_ is Line.
+    # [Output]
+    #  return true if rhs equals myself.
+    def ==(rhs)
+      return false if rhs == nil
+      return false if( !rhs.kind_of?(Line) )
+      return false if( self.base_point != rhs.base_point)
+      return false if( self.direction != rhs.direction)
+      return true
+    end
+
     # [Input]
     #  _parameter_ should be Numeric.
     # [Output]

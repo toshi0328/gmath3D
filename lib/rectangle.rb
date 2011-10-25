@@ -27,6 +27,25 @@ public
       self.v_vector = v_vector_arg
     end
 
+    def initialize_copy( original_obj )
+      @base_point = original_obj.base_point.dup
+      @u_vector = original_obj.u_vector.dup
+      @v_vector = original_obj.v_vector.dup
+    end
+
+    # [Input]
+    #  _rhs_ is Rectangle.
+    # [Output]
+    #  return true if rhs equals myself.
+    def ==(rhs)
+      return false if rhs == nil
+      return false if( !rhs.kind_of?(Rectangle) )
+      return false if( self.base_point != rhs.base_point)
+      return false if( self.u_vector != rhs.u_vector)
+      return false if( self.v_vector != rhs.v_vector)
+      return true
+    end
+
     def to_s
       "Rectangle[base#{@base_point.to_element_s}, u#{@u_vector.to_element_s}, v#{@v_vector.to_element_s}"
     end

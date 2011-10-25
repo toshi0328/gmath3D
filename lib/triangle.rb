@@ -20,6 +20,27 @@ public
       @vertices = Array.new([vertex1, vertex2, vertex3])
     end
 
+    def initialize_copy( original_obj )
+      @vertices = Array.new(original_obj.vertices.size)
+      for i in 0..@vertices.size-1
+        @vertices[i] = original_obj.vertices[i].dup
+      end
+    end
+
+    # [Input]
+    #  _rhs_ is Line.
+    # [Output]
+    #  return true if rhs equals myself.
+    def ==(rhs)
+      return false if rhs == nil
+      return false if( !rhs.kind_of?(Triangle) )
+      return false if(@vertices.size != rhs.vertices.size)
+      for i in 0..@vertices.size-1
+        return false if(@vertices[i] != rhs.vertices[i])
+      end
+      return true
+    end
+
     def to_s
       "Triangle[#{@vertices[0].to_element_s}, #{@vertices[1].to_element_s}, #{@vertices[2].to_element_s}]"
     end

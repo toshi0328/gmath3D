@@ -19,6 +19,39 @@ class LineTestCase < MiniTest::Unit::TestCase
     assert(Vector3.new(1,0,0) == lineDefault.direction )
   end
 
+  def test_equals
+    line = Line.new()
+    shallow_copied = line
+    assert(line.equal?(shallow_copied))
+    assert(line == shallow_copied)
+    assert(line != nil)
+    assert(line != "string")
+
+    assert_equal(Line.new(Vector3.new(1,2,3), Vector3.new(2,3,4)), Line.new(Vector3.new(1.0,2.0,3.0), Vector3.new(2.0,3.0,4.0)))
+
+    assert(Line.new(Vector3.new(1,2,3), Vector3.new(2,3,4)) == Line.new(Vector3.new(1.0,2.0,3.0), Vector3.new(2.0,3.0,4.0)))
+    assert(Line.new(Vector3.new(1,2,3), Vector3.new(2,3,3)) != Line.new(Vector3.new(1.0,2.0,3.0), Vector3.new(2.0,3.0,4.0)))
+    assert(Line.new(Vector3.new(1,2,3), Vector3.new(2,3,4)) != Line.new(Vector3.new(2,3,4), Vector3.new(1,2,3)))
+  end
+
+  def test_clone
+    line = Line.new()
+    shallow_copied = line
+    shallow_copied.base_point.x = -1
+    assert(line == shallow_copied)
+    assert(line.equal?(shallow_copied))
+    assert_equal(-1, shallow_copied.base_point.x)
+    assert_equal(-1, line.base_point.x)
+
+    cloned = line.clone
+    assert(line == cloned)
+    assert(!line.equal?(cloned))
+    cloned.base_point.x = -2
+    assert_equal(-2, cloned.base_point.x)
+
+    assert_equal(-1, line.base_point.x) # original never changed in editing cloned one.
+  end
+
   def test_to_s
     line =  Line.new(Vector3.new(2.0, 3, 5), Vector3.new(1.0, 1.0, 1.0))
     assert_equal("Line[point[2.0, 3, 5], vector[1.0, 1.0, 1.0]", line.to_s);

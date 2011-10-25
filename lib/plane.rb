@@ -21,6 +21,23 @@ public
       @normal = normal.normalize()
     end
 
+    def initialize_copy( original_obj )
+      @base_point = original_obj.base_point.dup
+      @normal = original_obj.normal.dup
+    end
+
+    # [Input]
+    #  _rhs_ is Plane.
+    # [Output]
+    #  return true if rhs equals myself.
+    def ==(rhs)
+      return false if rhs == nil
+      return false if( !rhs.kind_of?(Plane) )
+      return false if( self.base_point != rhs.base_point)
+      return false if( self.normal != rhs.normal)
+      return true
+    end
+
     def to_s
       "Plane[point#{@base_point.to_element_s}, normal#{@normal.to_element_s}]"
     end
@@ -39,7 +56,6 @@ public
     #   as [Numeric, Vector3, Vector3, Numeric].
     #  [in case _target_ is Plane]
     #   return "distance, intersect line" as [Numeric, Vector3].
-
     def distance(target)
       # with Point
       if(target.kind_of?(Vector3))

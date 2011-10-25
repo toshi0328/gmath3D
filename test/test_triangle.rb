@@ -21,6 +21,36 @@ class TriangleTestCase < MiniTest::Unit::TestCase
     assert_equal(Vector3.new(0,1,0), @triangle_default.vertices[2])
   end
 
+  def test_equals
+    assert(@triangle != nil)
+    assert(@triangle != "string")
+
+    shallow_copied = @triangle
+    assert(@triangle.equal?(shallow_copied))
+    assert(@triangle == shallow_copied)
+
+    assert_equal(@triangle, Triangle.new( Vector3.new(1.0,2.0,2.0), Vector3.new(1.0,4.0,2.0), Vector3.new(-1.0,3.0,0.0)))
+    assert(@triangle == Triangle.new( Vector3.new(1.0,2.0,2.0), Vector3.new(1.0,4.0,2.0), Vector3.new(-1.0,3.0,0.0)))
+    assert(@triangle != Triangle.new( Vector3.new(1.0,2.0,2.0), Vector3.new(1.0,4.0,2.0), Vector3.new(-1.0,3.0,0.5)))
+  end
+
+  def test_clone
+    shallow_copied = @triangle
+    shallow_copied.vertices[2].x = 1
+    assert(@triangle == shallow_copied)
+    assert(@triangle.equal?(shallow_copied))
+    assert_equal(1, @triangle.vertices[2].x)
+    assert_equal(1, shallow_copied.vertices[2].x)
+
+    cloned =@triangle.clone
+    assert(@triangle == cloned)
+    assert(!@triangle.equal?(cloned))
+
+    cloned.vertices[2].x = -10
+    assert_equal(-10, cloned.vertices[2].x)
+    assert_equal(1, @triangle.vertices[2].x) # original never changed in editing cloned one.
+  end
+
   def test_to_s
     assert_equal("Triangle[[1, 2, 2], [1, 4, 2], [-1, 3, 0]]", @triangle.to_s)
   end

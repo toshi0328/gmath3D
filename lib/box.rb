@@ -6,8 +6,8 @@ module GMath3D
   #
   class Box < Geom
 public
-    attr_accessor :min_point
-    attr_accessor :max_point
+    attr_reader :min_point
+    attr_reader :max_point
 
     # [Input]
     #  _point1_ and _point2_ should be Vector3.

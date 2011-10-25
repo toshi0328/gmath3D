@@ -25,6 +25,39 @@ class PlaneTestCase < MiniTest::Unit::TestCase
     assert_equal("Plane[point[0, 0, 1], normal[0.0, 0.0, 1.0]]", @plane.to_s)
   end
 
+  def test_equals
+    plane = Plane.new()
+    shallow_copied = plane
+    assert(plane.equal?(shallow_copied))
+    assert(plane == shallow_copied)
+    assert(plane != nil)
+    assert(plane != "string")
+
+    assert_equal(Plane.new(Vector3.new(1,2,3), Vector3.new(2,3,4)), Plane.new(Vector3.new(1.0,2.0,3.0), Vector3.new(2.0,3.0,4.0)))
+
+    assert(Plane.new(Vector3.new(1,2,3), Vector3.new(2,3,4)) == Plane.new(Vector3.new(1.0,2.0,3.0), Vector3.new(2.0,3.0,4.0)))
+    assert(Plane.new(Vector3.new(1,2,3), Vector3.new(2,3,4)) == Plane.new(Vector3.new(1.0,2.0,3.0), Vector3.new(4.0,6,8.0)))
+    assert(Plane.new(Vector3.new(1,2,3), Vector3.new(2,3,3)) != Plane.new(Vector3.new(1.0,2.0,3.0), Vector3.new(2.0,3.0,4.0)))
+    assert(Plane.new(Vector3.new(1,2,3), Vector3.new(2,3,4)) != Plane.new(Vector3.new(2,3,4), Vector3.new(1,2,3)))
+  end
+
+  def test_clone
+    plane = Plane.new()
+    shallow_copied = plane
+    shallow_copied.base_point.x = -1
+    assert(plane == shallow_copied)
+    assert(plane.equal?(shallow_copied))
+    assert_equal(-1, shallow_copied.base_point.x)
+
+    cloned = plane.clone
+    assert(plane == cloned)
+    assert(!plane.equal?(cloned))
+    cloned.base_point.x = -2
+    assert_equal(-2, cloned.base_point.x)
+
+    assert_equal(-1, plane.base_point.x) # original never changed in editing cloned one.
+  end
+
   def test_distance_to_point
     target_point = Vector3.new(1,2,3)
     distance, closest_point = @plane.distance(target_point)

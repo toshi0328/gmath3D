@@ -21,6 +21,42 @@ class RectangleTestCase < MiniTest::Unit::TestCase
     assert_equal(Vector3.new(0,1,0), @rectangle_default.v_vector)
   end
 
+  def test_equals
+    assert(@rectangle != nil)
+    assert(@rectangle != "string")
+
+    shallow_copied = @rectangle
+    assert(@rectangle.equal?(shallow_copied))
+    assert(@rectangle == shallow_copied)
+
+    assert_equal(@rectangle, Rectangle.new( Vector3.new(1,2,3), Vector3.new(0,-0.5,0), Vector3.new(0,0,2)))
+    assert(@rectangle == Rectangle.new( Vector3.new(1,2,3), Vector3.new(0,-0.5,0), Vector3.new(0,0,2.0)))
+    assert(@rectangle != Rectangle.new( Vector3.new(1,2,3), Vector3.new(0,-0.5,0), Vector3.new(0,0,2.2)))
+  end
+
+  def test_clone
+    shallow_copied = @rectangle
+    shallow_copied.base_point.x = -1
+    assert(@rectangle == shallow_copied)
+    assert(@rectangle.equal?(shallow_copied))
+    assert_equal(-1, shallow_copied.base_point.x)
+    assert_equal(-1, @rectangle.base_point.x)
+
+    cloned = @rectangle.clone
+    assert(@rectangle == cloned)
+    assert(!@rectangle.equal?(cloned))
+    cloned.base_point.x = -2
+    cloned.u_vector.x = 4
+    cloned.v_vector.z = 6
+    assert_equal(-2, cloned.base_point.x)
+    assert_equal(4, cloned.u_vector.x)
+    assert_equal(6, cloned.v_vector.z)
+
+    assert_equal(-1, @rectangle.base_point.x) # original never changed in editing cloned one.
+    assert_equal(0,  @rectangle.u_vector.x)
+    assert_equal(2,  @rectangle.v_vector.z)
+  end
+
   def test_to_s
     assert_equal("Rectangle[base[1, 2, 3], u[0, -0.5, 0], v[0, 0, 2]", @rectangle.to_s)
   end

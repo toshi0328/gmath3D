@@ -16,17 +16,13 @@ class TriMeshTestCase < MiniTest::Unit::TestCase
     return TriMesh.from_rectangle(rect)
   end
 
-  def test_to_s
-    assert_equal( "TriMesh[triangle_count:12, vertex_count:8]", get_box_mesh().to_s)
-  end
-
   def test_initalize
     plane_mesh = get_plane_mesh()
-    assert_equal( 2, plane_mesh.tri_indeces.size)
+    assert_equal( 2, plane_mesh.tri_indices.size)
     assert_equal( 4, plane_mesh.vertices.size)
 
     box_mesh = get_box_mesh()
-    assert_equal( 12, box_mesh.tri_indeces.size)
+    assert_equal( 12, box_mesh.tri_indices.size)
     assert_equal( 8, box_mesh.vertices.size)
 
     assert_raises ArgumentError do
@@ -37,10 +33,65 @@ class TriMeshTestCase < MiniTest::Unit::TestCase
     end
   end
 
+  def test_equal
+    plane_mesh = get_plane_mesh()
+    assert( plane_mesh != nil )
+    assert( plane_mesh != "String" )
+
+    shallow = plane_mesh
+    assert( shallow == plane_mesh )
+    assert( shallow.equal?(plane_mesh) )
+
+    new_mesh = get_plane_mesh()
+    assert( shallow == new_mesh )
+    assert( !shallow.equal?(new_mesh) )
+  end
+
+  def test_clone
+    plane_mesh = get_plane_mesh()
+    shallow = plane_mesh
+
+    shallow.vertices[0].x = 12
+    shallow.vertices[2] = Vector3.new(-3,2,5)
+    shallow.tri_indices[0] = [3,2,1]
+    shallow.tri_indices[1][2] = 2
+
+    assert_equal( 12, shallow.vertices[0].x )
+    assert_equal( 12, plane_mesh.vertices[0].x )
+    assert_equal( Vector3.new(-3,2,5), shallow.vertices[2] )
+    assert_equal( Vector3.new(-3,2,5), plane_mesh.vertices[2] )
+    assert_equal( [3,2,1], shallow.tri_indices[0] )
+    assert_equal( [3,2,1], plane_mesh.tri_indices[0] )
+    assert_equal( 2, shallow.tri_indices[1][2] )
+    assert_equal( 2, plane_mesh.tri_indices[1][2] )
+
+    deep = plane_mesh.clone
+    assert( deep == plane_mesh )
+    assert( !deep.equal?(plane_mesh) )
+
+    deep.vertices[0].x = -1
+    deep.vertices[2] = Vector3.new(4,2,1)
+    deep.tri_indices[0] = [4,2,2]
+    deep.tri_indices[1][2] = 5
+
+    assert_equal( -1, deep.vertices[0].x )
+    assert_equal( 12, plane_mesh.vertices[0].x )
+    assert_equal( Vector3.new(4,2,1), deep.vertices[2] )
+    assert_equal( Vector3.new(-3,2,5), plane_mesh.vertices[2] )
+    assert_equal( [4,2,2], deep.tri_indices[0] )
+    assert_equal( [3,2,1], plane_mesh.tri_indices[0] )
+    assert_equal( 5, deep.tri_indices[1][2] )
+    assert_equal( 2, plane_mesh.tri_indices[1][2] )
+  end
+
+  def test_to_s
+    assert_equal( "TriMesh[triangle_count:12, vertex_count:8]", get_box_mesh().to_s)
+  end
+
   def test_triangles
     vertices = [Vector3.new(0,0,0),Vector3.new(2,0,0),Vector3.new(2,2,0),Vector3.new(0,2,0)]
-    tri_indeces = [[0,1,3],[1,2,3]]
-    tri_mesh = TriMesh.new(vertices, tri_indeces)
+    tri_indices = [[0,1,3],[1,2,3]]
+    tri_mesh = TriMesh.new(vertices, tri_indices)
     triangles = tri_mesh.triangles
     assert_equal(2, triangles.size)
     assert_equal(Vector3.new(0,0,0), triangles[0].vertices[0])
@@ -71,7 +122,7 @@ class TriMeshTestCase < MiniTest::Unit::TestCase
     tris[7] = Triangle.new( Vector3.new(2,1,1), Vector3.new(2,2,2), Vector3.new(1,2,2) )
     trimesh_from_tris = TriMesh::from_triangles(tris)
     assert_equal( 9, trimesh_from_tris.vertices.size)
-    assert_equal( 8, trimesh_from_tris.tri_indeces.size)
+    assert_equal( 8, trimesh_from_tris.tri_indices.size)
   end
 
   def test_from_convex_polyline

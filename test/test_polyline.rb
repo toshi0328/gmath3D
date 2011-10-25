@@ -29,6 +29,49 @@ class PolylineTestCase < MiniTest::Unit::TestCase
     assert_equal( false, @polyline_closed.is_open )
   end
 
+  def test_equals
+    shallow_copied = @polyline_open
+    assert(@polyline_open.equal?(shallow_copied))
+    assert(@polyline_open == shallow_copied)
+    assert(@polyline_open != nil)
+    assert(@polyline_open != "string")
+
+    assert(@polyline_open != @polyline_closed)
+
+    polyline_new_open = Polyline.new(@vertices, true)
+    assert(!@polyline_open.equal?(polyline_new_open))
+    assert(@polyline_open == polyline_new_open)
+    assert_equal(@polyline_open, polyline_new_open)
+
+    new_vertices = @vertices.clone
+    new_vertices.push( Vector3.new(3,4,5))
+    polyline_new_open = Polyline.new(new_vertices, true)
+    assert(polyline_new_open != @polyline_open)
+    assert(@polyline_open != polyline_new_open)
+  end
+
+  def test_clone
+    shallow_copied = @polyline_open
+    vert_cnt = @polyline_open.vertices.size
+    shallow_copied.vertices[vert_cnt - 1].x = 20
+    assert(@polyline_open == shallow_copied)
+    assert(@polyline_open.equal?(shallow_copied))
+    assert_equal(20, @polyline_open.vertices[vert_cnt - 1].x)
+    assert_equal(20, shallow_copied.vertices[vert_cnt - 1].x)
+
+    cloned = @polyline_open.clone
+    assert(@polyline_open == cloned)
+    assert(!@polyline_open.equal?(cloned))
+
+    cloned.vertices[vert_cnt - 1].x = -20
+    assert_equal(-20, cloned.vertices[vert_cnt - 1].x)
+    assert_equal(20, @polyline_open.vertices[vert_cnt - 1].x) # original never changed in editing cloned one.
+
+    cloned.is_open = false
+    assert_equal(false, cloned.is_open)
+    assert_equal(true,  @polyline_open.is_open)
+  end
+
   def test_to_s
     assert_equal("Polyline[[1, 0, 0], [2.0, 0, 0], [3, 1, 0], [2, 2, 1], [1, 2, 0], [0, 1, 0]] open",
            @polyline_open.to_s);

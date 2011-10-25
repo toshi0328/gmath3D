@@ -6,21 +6,21 @@ module GMath3D
   #
   class TriMesh < Geom
     attr_reader :vertices
-    attr_reader :tri_indeces
+    attr_reader :tri_indices
 
     # [Input]
     #  vertices is Array of Vector3.
-    #  tri_indeces is Array of triangle whick is consist of 3 vertices index.
+    #  tri_indices is Array of triangle whick is consist of 3 vertices index.
     # [Output]
     #  return new instance of TriMesh.
-    def initialize(vertices, tri_indeces)
+    def initialize(vertices, tri_indices)
       # check arg
       Util.check_arg_type(Array, vertices)
-      Util.check_arg_type(Array, tri_indeces)
+      Util.check_arg_type(Array, tri_indices)
       vertices.each do |item|
         Util.check_arg_type(Vector3, item)
       end
-      tri_indeces.each do |tri_index|
+      tri_indices.each do |tri_index|
         Util.check_arg_type(Array, tri_index)
         tri_index.each do |item|
           Util.check_arg_type(Integer, item)
@@ -28,7 +28,18 @@ module GMath3D
       end
       super()
       @vertices = vertices
-      @tri_indeces = tri_indeces
+      @tri_indices = tri_indices
+    end
+
+    def initialize_copy( original_obj )
+      @vertices = Array.new(original_obj.vertices.size)
+      for i in 0..@vertices.size-1
+        @vertices[i] = original_obj.vertices[i].dup
+      end
+      @tri_indices = Array.new(original_obj.tri_indices.size)
+      for i in 0..@tri_indices.size-1
+        @tri_indices[i] = original_obj.tri_indices[i].dup
+      end
     end
 
     # [Input]
@@ -48,7 +59,7 @@ module GMath3D
       vertices[6] = box.min_point + Vector3.new(width, height, depth)
       vertices[7] = box.min_point + Vector3.new(0    , height, depth)
 
-      tri_indeces =[
+      tri_indices =[
         [0, 1, 2],
         [0, 2, 3],
         [1, 5, 6],
@@ -61,7 +72,7 @@ module GMath3D
         [2, 7, 3],
         [0, 4, 5],
         [0, 5, 1]]
-      return TriMesh.new( vertices, tri_indeces )
+      return TriMesh.new( vertices, tri_indices )
     end
 
     # [Input]
@@ -93,21 +104,21 @@ module GMath3D
         tri_idx += 1
       end
 
-      tri_indeces = Array.new( tris.size )
+      tri_indices = Array.new( tris.size )
       vertices = vert_tris_map.keys
 
       vert_idx = 0
       vert_tris_map.each do | vertex, tri_index_ary |
         tri_index_ary.each do | tri_index |
-          tri_indeces[tri_index] = Array.new() if( !tri_indeces[tri_index] )
-          tri_indeces[tri_index].push(vert_idx)
+          tri_indices[tri_index] = Array.new() if( !tri_indices[tri_index] )
+          tri_indices[tri_index].push(vert_idx)
         end
         vert_idx += 1
       end
 
       # modify noamal direction
       tri_idx = 0
-      tri_indeces.each do | tri_index_ary |
+      tri_indices.each do | tri_index_ary |
         if ( tri_index_ary.size > 2 )
           tmp_tri = Triangle.new(vertices[tri_index_ary[0]], vertices[tri_index_ary[1]], vertices[tri_index_ary[2]])
           if( tmp_tri.normal.dot(tris[tri_idx].normal) < 0 )
@@ -117,7 +128,7 @@ module GMath3D
         tri_idx += 1
       end
 
-      return TriMesh.new( vertices, tri_indeces )
+      return TriMesh.new( vertices, tri_indices )
     end
 
     # [Input]
@@ -132,12 +143,12 @@ module GMath3D
         trimesh_vertices[i] = poly_vert.clone
         i += 1
       end
-      trimesh_tri_indeces = Array.new(polyline.vertices.size)
+      trimesh_tri_indices = Array.new(polyline.vertices.size)
       for i in 0..polyline.vertices.size-1
-        trimesh_tri_indeces[i] = [0,i+1,i+2]
+        trimesh_tri_indices[i] = [0,i+1,i+2]
       end
-      trimesh_tri_indeces[trimesh_tri_indeces.size - 1] = [0,polyline.vertices.size,1]
-      return TriMesh.new( trimesh_vertices, trimesh_tri_indeces )
+      trimesh_tri_indices[trimesh_tri_indices.size - 1] = [0,polyline.vertices.size,1]
+      return TriMesh.new( trimesh_vertices, trimesh_tri_indices )
     end
 
     # [Input]
@@ -155,22 +166,42 @@ module GMath3D
         i+=1
       end
 
-      tri_indeces_cnt = (poly_vert_cnt-1)*2
-      trimesh_tri_indeces = Array.new(tri_indeces_cnt)
+      tri_indices_cnt = (poly_vert_cnt-1)*2
+      trimesh_tri_indices = Array.new(tri_indices_cnt)
 
       for i in 0..poly_vert_cnt-2
-        trimesh_tri_indeces[2*i    ] = [i,     i + 1,                 i + poly_vert_cnt]
-        trimesh_tri_indeces[2*i + 1] = [i + 1, i + 1 + poly_vert_cnt, i + poly_vert_cnt]
+        trimesh_tri_indices[2*i    ] = [i,     i + 1,                 i + poly_vert_cnt]
+        trimesh_tri_indices[2*i + 1] = [i + 1, i + 1 + poly_vert_cnt, i + poly_vert_cnt]
       end
       if(!polyline.is_open)
-        trimesh_tri_indeces[2*(poly_vert_cnt - 1)    ] = [poly_vert_cnt - 1, 0, 2*(poly_vert_cnt - 1) + 1]
-        trimesh_tri_indeces[2*(poly_vert_cnt - 1) + 1] = [0, poly_vert_cnt, 2*(poly_vert_cnt - 1) + 1]
+        trimesh_tri_indices[2*(poly_vert_cnt - 1)    ] = [poly_vert_cnt - 1, 0, 2*(poly_vert_cnt - 1) + 1]
+        trimesh_tri_indices[2*(poly_vert_cnt - 1) + 1] = [0, poly_vert_cnt, 2*(poly_vert_cnt - 1) + 1]
       end
-      return TriMesh.new(trimesh_vertices, trimesh_tri_indeces)
+      return TriMesh.new(trimesh_vertices, trimesh_tri_indices)
+    end
+
+    # [Input]
+    #  _rhs_ is TriMesh.
+    # [Output]
+    #  return true if rhs equals myself.
+    def ==(rhs)
+      return false if rhs == nil
+      return false if( !rhs.kind_of?(TriMesh) )
+      return false if(@vertices.size != rhs.vertices.size)
+      return false if(@tri_indices.size != rhs.tri_indices.size)
+
+      for i in 0..(@vertices.size-1)
+        return false if( @vertices[i] != rhs.vertices[i])
+      end
+
+      for i in 0..(@tri_indices.size-1)
+        return false if( @tri_indices[i] != rhs.tri_indices[i])
+      end
+      return true
     end
 
     def to_s
-      "TriMesh[triangle_count:#{tri_indeces.size}, vertex_count:#{vertices.size}]"
+      "TriMesh[triangle_count:#{tri_indices.size}, vertex_count:#{vertices.size}]"
     end
 
     # [Input]
@@ -178,17 +209,17 @@ module GMath3D
     # [Output]
     #  return new instance of Triangle.
     def triangle(index)
-      return nil if( index < 0 || @tri_indeces.size <= index )
-      tri_index = @tri_indeces[index]
+      return nil if( index < 0 || @tri_indices.size <= index )
+      tri_index = @tri_indices[index]
       return Triangle.new(vertices[tri_index[0]], vertices[tri_index[1]], vertices[tri_index[2]])
     end
 
     # [Output]
     #  return Array of Triangle.
     def triangles
-      tris = Array.new(tri_indeces.size)
+      tris = Array.new(tri_indices.size)
       i = 0
-      tri_indeces.each do |tri_index|
+      tri_indices.each do |tri_index|
         tris[i] =  self.triangle(i)
         i += 1
       end
