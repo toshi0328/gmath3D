@@ -76,12 +76,41 @@ class TriMeshTestCase < MiniTest::Unit::TestCase
 
   def test_from_convex_polyline
     vertices = Array.new(6)
-    #TODO impliment!
+    vertices[0] = Vector3.new(1,0,0)
+    vertices[1] = Vector3.new(2,0,0)
+    vertices[2] = Vector3.new(3,1,0)
+    vertices[3] = Vector3.new(2,2,0)
+    vertices[4] = Vector3.new(1,2,0)
+    vertices[5] = Vector3.new(0,1,0)
+    polyline_closed = Polyline.new( vertices, false ) # closed Polyline
+    polyline_open   = Polyline.new( vertices, true  ) # open Polyline
+    trimesh_from_convex_polyline1 = TriMesh.from_convex_polyline( polyline_closed )
+    trimesh_from_convex_polyline2 = TriMesh.from_convex_polyline( polyline_open )
+
+    assert_equal(4, trimesh_from_convex_polyline1.area)
+    assert_equal(4, trimesh_from_convex_polyline2.area)
   end
 
   def test_from_extruded_polyline
     vertices = Array.new(6)
-    #TODO impliment!
+    vertices[0] = Vector3.new(1,0,0)
+    vertices[1] = Vector3.new(2,0,0)
+    vertices[2] = Vector3.new(3,1,0)
+    vertices[3] = Vector3.new(2,2,0)
+    vertices[4] = Vector3.new(1,2,0)
+    vertices[5] = Vector3.new(0,1,0)
+    polyline_closed = Polyline.new( vertices, false ) # closed Polyline
+    polyline_open   = Polyline.new( vertices, true  ) # open Polyline
+    extrude_direction = Vector3.new(0,0,2)
+    trimesh_from_extruded_polyline1 = TriMesh.from_extrude_polyline( polyline_closed , extrude_direction )
+    trimesh_from_extruded_polyline2 = TriMesh.from_extrude_polyline( polyline_open   , extrude_direction )
+
+    assert_in_delta(4+8*(Math.sqrt(2)), trimesh_from_extruded_polyline1.area, 1e-10)
+    assert_in_delta(4+6*(Math.sqrt(2)), trimesh_from_extruded_polyline2.area, 1e-10)
   end
 
+  def test_area
+    box_mesh = get_box_mesh()
+    assert_equal(94, box_mesh.area)
+  end
 end

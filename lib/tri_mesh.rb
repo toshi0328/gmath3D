@@ -120,6 +120,55 @@ module GMath3D
       return TriMesh.new( vertices, tri_indeces )
     end
 
+    # [Input]
+    #  _polyline_ is Poyline object that should be convex.
+    # [Output]
+    #  return new instance of TriMesh
+    def self.from_convex_polyline(polyline)
+      trimesh_vertices = Array.new(polyline.vertices.size + 1)
+      trimesh_vertices[0] = polyline.center
+      i = 1
+      polyline.vertices.each do | poly_vert |
+        trimesh_vertices[i] = poly_vert.clone
+        i += 1
+      end
+      trimesh_tri_indeces = Array.new(polyline.vertices.size)
+      for i in 0..polyline.vertices.size-1
+        trimesh_tri_indeces[i] = [0,i+1,i+2]
+      end
+      trimesh_tri_indeces[trimesh_tri_indeces.size - 1] = [0,polyline.vertices.size,1]
+      return TriMesh.new( trimesh_vertices, trimesh_tri_indeces )
+    end
+
+    # [Input]
+    #  _polyline_ is Poyline object.
+    #  _extrude_direction_ is Vector3.
+    # [Output]
+    #  return new instance of TriMesh that is extruded polyline
+    def self.from_extrude_polyline(polyline, extrude_direction)
+      trimesh_vertices = Array.new(polyline.vertices.size*2)
+      poly_vert_cnt = polyline.vertices.size
+      i = 0
+      polyline.vertices.each do | poly_vert |
+        trimesh_vertices[i] = poly_vert.clone
+        trimesh_vertices[i + poly_vert_cnt] = poly_vert + extrude_direction
+        i+=1
+      end
+
+      tri_indeces_cnt = (poly_vert_cnt-1)*2
+      trimesh_tri_indeces = Array.new(tri_indeces_cnt)
+
+      for i in 0..poly_vert_cnt-2
+        trimesh_tri_indeces[2*i    ] = [i,     i + 1,                 i + poly_vert_cnt]
+        trimesh_tri_indeces[2*i + 1] = [i + 1, i + 1 + poly_vert_cnt, i + poly_vert_cnt]
+      end
+      if(!polyline.is_open)
+        trimesh_tri_indeces[2*(poly_vert_cnt - 1)    ] = [poly_vert_cnt - 1, 0, 2*(poly_vert_cnt - 1) + 1]
+        trimesh_tri_indeces[2*(poly_vert_cnt - 1) + 1] = [0, poly_vert_cnt, 2*(poly_vert_cnt - 1) + 1]
+      end
+      return TriMesh.new(trimesh_vertices, trimesh_tri_indeces)
+    end
+
     def to_s
       "TriMesh[triangle_count:#{tri_indeces.size}, vertex_count:#{vertices.size}]"
     end
@@ -146,6 +195,15 @@ module GMath3D
       return tris
     end
 
+    # [Output]
+    #  return surface area of TriMesh.
+    def area
+      area_sum = 0
+      triangles.each do | tri |
+        area_sum += tri.area
+      end
+      return area_sum
+    end
   end
 end
 

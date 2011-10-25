@@ -54,6 +54,47 @@ class Vector3TestCase < MiniTest::Unit::TestCase
     @vector.x = "this is a pen"
   end
 
+  def test_clone
+    vec1 = Vector3.new(1,2,3)
+    vec1_shallow_copy = vec1
+    vec1_shallow_copy.x = 4
+    assert_equal( 4, vec1.x )
+    assert_equal( 2, vec1.y )
+    assert_equal( 3, vec1.z )
+
+    vec1_deep_copy = vec1.clone
+    vec1_deep_copy.x = 6
+    assert_equal( 4, vec1.x )
+    assert_equal( 6, vec1_deep_copy.x )
+
+    vec_ary = [Vector3.new(1,2,3), Vector3.new(4,5,6)]
+    vec_ary_shallow = vec_ary
+    vec_ary_shallow[0].x = 4
+    vec_ary_shallow[1] = Vector3.new(7,8,9)
+    vec_ary_shallow.push(Vector3.new(10,11,12))
+    assert_equal(4, vec_ary_shallow[0].x)
+    assert_equal(Vector3.new(7,8,9), vec_ary_shallow[1])
+    assert_equal(3, vec_ary_shallow.size)
+    assert_equal(4, vec_ary[0].x)
+    assert_equal(Vector3.new(7,8,9), vec_ary[1])
+    assert_equal(3, vec_ary.size)
+
+    vec_ary = [Vector3.new(1,2,3), Vector3.new(4,5,6)]
+    vec_ary_deep = vec_ary.clone
+    vec_ary_deep[0].x = 4
+    vec_ary_deep[1] = Vector3.new(7,8,9)
+    vec_ary_deep.push(Vector3.new(10,11,12))
+    assert_equal(4, vec_ary_deep[0].x)
+    assert_equal(Vector3.new(7,8,9), vec_ary_deep[1])
+    assert_equal(3, vec_ary_deep.size)
+
+    # Array.clone does not call element.clone
+#    assert_equal(1, vec_ary[0].x)
+    assert_equal(4, vec_ary[0].x)
+    assert_equal(Vector3.new(4,5,6), vec_ary[1])
+    assert_equal(2, vec_ary.size)
+  end
+
   def test_equals
     assert(!(@vector_init_zero == @vector))
     assert(@vector_init_zero != @vector)
