@@ -8,6 +8,8 @@ require 'matrix_util'
 
 require 'line'
 require 'finite_line'
+require 'ellipse'
+
 require 'plane'
 require 'rectangle'
 require 'triangle'
