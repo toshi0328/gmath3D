@@ -50,6 +50,12 @@ public
       "Rectangle[base#{@base_point.to_element_s}, u#{@u_vector.to_element_s}, v#{@v_vector.to_element_s}"
     end
 
+    # [Output]
+    #  return axially aligned bounding box as Box.
+    def box
+      return Box.from_points( self.vertices() )
+    end
+
     # [Input]
     #  _u_, _v_ should be Numeric.
     # [Output]

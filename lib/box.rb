@@ -28,6 +28,18 @@ public
       @max_point.z = [ point1.z, point2.z ].max
     end
 
+    # [Input]
+    #  _points_ should be Array of Vector3.
+    #  Each points are opposing corners.
+    # [Output]
+    #  return new instance of Box.
+    def self.from_points( points )
+      return nil if (points == nil || points.size <=0)
+      box = Box.new(points[0], points[0])
+      box += points
+      return box
+    end
+
     def to_s
       "Box[min#{min_point.to_element_s}, max#{max_point.to_element_s}]"
     end

@@ -144,6 +144,15 @@ class Vector3TestCase < MiniTest::Unit::TestCase
     assert_equal(3, hash[vec])
   end
 
+  def test_box
+    box1 = @vector.box
+    box2 = Vector3.new().box
+    assert_equal(Vector3.new(1,2,3), box1.min_point)
+    assert_equal(Vector3.new(1,2,3), box1.max_point)
+    assert_equal(Vector3.new(), box2.min_point)
+    assert_equal(Vector3.new(), box2.max_point)
+  end
+
   def test_add
     vector = Vector3.new(4,5,6)
     addedVector = vector + @vector

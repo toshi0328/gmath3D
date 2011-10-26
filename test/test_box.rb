@@ -40,6 +40,30 @@ class BoxTestCase < MiniTest::Unit::TestCase
     end
   end
 
+  def test_from_points
+    points = Array.new(6)
+    points[0] = Vector3.new( 3, 0,  1)
+    points[1] = Vector3.new( 2,-2, 10)
+    points[2] = Vector3.new(-6, 2, -4)
+    points[3] = Vector3.new( 3, 5, -1)
+    points[4] = Vector3.new(-2, 2,  2)
+    points[5] = Vector3.new(11, 1,  0)
+    box = Box.from_points(points)
+    assert_equal(Vector3.new(-6, -2, -4), box.min_point)
+    assert_equal(Vector3.new(11,  5, 10), box.max_point)
+
+    points = Array.new(2)
+    points[0] = Vector3.new( -3, -2,  -1)
+    points[1] = Vector3.new( -4, -8, -10)
+    box = Box.from_points(points)
+    assert_equal(Vector3.new(-4, -8, -10), box.min_point)
+    assert_equal(Vector3.new(-3, -2,  -1), box.max_point)
+
+    points = Array.new(0)
+    box = Box.from_points(points)
+    assert_equal(nil, box)
+  end
+
   def test_equal
     shallow_copied = @box
     assert( shallow_copied == @box )

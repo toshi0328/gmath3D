@@ -13,7 +13,7 @@ public
     #  _start_point_ and _end_point_ should be Vector3.
     # [Output]
     #  return new instance as FiniteLine
-    def initialize(start_point = Vector3.new(0.0,0.0,0.0), end_point = Vector3.new(1.0,0.0,0.0))
+    def initialize(start_point = Vector3.new(0,0,0), end_point = Vector3.new(1,0,0))
       Util.check_arg_type(Vector3, start_point)
       Util.check_arg_type(Vector3, end_point)
       super()
@@ -40,6 +40,13 @@ public
       return false if( self.start_point != rhs.start_point)
       return false if( self.end_point != rhs.end_point)
       return true
+    end
+
+    # [Output]
+    #  return axially aligned bounding box as Box.
+    def box
+      stt_end_points = [start_point, end_point]
+      return Box.from_points( stt_end_points )
     end
 
     # [Output]

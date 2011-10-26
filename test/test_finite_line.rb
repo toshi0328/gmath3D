@@ -57,6 +57,18 @@ class FiniteLineTestCase < MiniTest::Unit::TestCase
     assert_equal(-1, line.start_point.x) # original never changed in editing cloned one.
   end
 
+  def test_box
+    start_point_tmp = Vector3.new(1.0,  0.0, 2.0)
+    end_point_tmp   = Vector3.new(1.0, -3.5, 5.0)
+    line = FiniteLine.new(start_point_tmp, end_point_tmp)
+    assert_equal(Vector3.new(1, -3.5, 2), line.box.min_point)
+    assert_equal(Vector3.new(1,    0, 5), line.box.max_point)
+
+    line = FiniteLine.new()
+    assert_equal(Vector3.new(), line.box.min_point)
+    assert_equal(Vector3.new(1,0,0), line.box.max_point)
+  end
+
   def test_direction
     start_point_tmp = Vector3.new(1.0,  0.0, 2.0)
     end_point_tmp   = Vector3.new(1.0, -3.5, 1.0)

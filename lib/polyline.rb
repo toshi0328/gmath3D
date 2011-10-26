@@ -56,6 +56,12 @@ module GMath3D
     end
 
     # [Output]
+    #  return axially aligned bounding box as Box.
+    def box
+      return Box.from_points( vertices )
+    end
+
+    # [Output]
     #  return center point as Vector3.
     def center
       center = Vector3.new()

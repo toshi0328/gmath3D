@@ -79,6 +79,13 @@ class PolylineTestCase < MiniTest::Unit::TestCase
            @polyline_closed.to_s);
   end
 
+  def test_box
+    assert_equal(Vector3.new(0,0,0), @polyline_open.box.min_point)
+    assert_equal(Vector3.new(3,2,1), @polyline_open.box.max_point)
+    assert_equal(Vector3.new(0,0,0), @polyline_closed.box.min_point)
+    assert_equal(Vector3.new(3,2,1), @polyline_closed.box.max_point)
+  end
+
   def test_center
     assert_equal(Vector3.new(1.5, 1.0, 1.0/6.0), @polyline_open.center)
     assert_equal(Vector3.new(1.5, 1.0, 1.0/6.0), @polyline_closed.center)

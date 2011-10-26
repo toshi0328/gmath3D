@@ -49,6 +49,12 @@ public
       equals_inner(rhs)
     end
 
+    # [Output]
+    #  return axially aligned bounding box as Box.
+    def box
+      return Box.new(self, self)
+    end
+
     # [Input]
     #  _rhs_ should be Vector3.
     # [Output]

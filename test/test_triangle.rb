@@ -55,6 +55,15 @@ class TriangleTestCase < MiniTest::Unit::TestCase
     assert_equal("Triangle[[1, 2, 2], [1, 4, 2], [-1, 3, 0]]", @triangle.to_s)
   end
 
+  def test_box
+    box1 = @triangle.box
+    box2 = @triangle_default.box
+    assert_equal(Vector3.new(-1,2,0), box1.min_point)
+    assert_equal(Vector3.new(1,4,2), box1.max_point)
+    assert_equal(Vector3.new(0,0,0) , box2.min_point)
+    assert_equal(Vector3.new(1,1,0) , box2.max_point)
+  end
+
   def test_point
     assert_equal(@triangle.vertices[0], @triangle.point( Array.new([1,0,0])))
     assert_equal(@triangle.vertices[1], @triangle.point( Array.new([0,1,0])))

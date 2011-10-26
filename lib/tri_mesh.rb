@@ -204,7 +204,13 @@ module GMath3D
       "TriMesh[triangle_count:#{tri_indices.size}, vertex_count:#{vertices.size}]"
     end
 
-    # [Input]
+    # [Output]
+    #  return axially aligned bounding box as Box.
+    def box
+      return Box.from_points( self.vertices() )
+    end
+
+   # [Input]
     #  _index_ is index of triangle.
     # [Output]
     #  return new instance of Triangle.

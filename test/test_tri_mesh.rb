@@ -88,6 +88,15 @@ class TriMeshTestCase < MiniTest::Unit::TestCase
     assert_equal( "TriMesh[triangle_count:12, vertex_count:8]", get_box_mesh().to_s)
   end
 
+  def test_box
+    box_mesh = get_box_mesh
+    plane_mesh = get_plane_mesh
+    assert_equal( Vector3.new(-1,-1,-1), box_mesh.box.min_point )
+    assert_equal( Vector3.new( 2, 3, 4), box_mesh.box.max_point )
+    assert_equal( Vector3.new(-1,-1,-1), plane_mesh.box.min_point )
+    assert_equal( Vector3.new( 1, 3,-1), plane_mesh.box.max_point )
+  end
+
   def test_triangles
     vertices = [Vector3.new(0,0,0),Vector3.new(2,0,0),Vector3.new(2,2,0),Vector3.new(0,2,0)]
     tri_indices = [[0,1,3],[1,2,3]]

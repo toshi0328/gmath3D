@@ -61,6 +61,15 @@ class RectangleTestCase < MiniTest::Unit::TestCase
     assert_equal("Rectangle[base[1, 2, 3], u[0, -0.5, 0], v[0, 0, 2]", @rectangle.to_s)
   end
 
+  def test_box
+    box1 = @rectangle.box
+    box2 = @rectangle_default.box
+    assert_equal(Vector3.new(1, 1.5, 3), box1.min_point)
+    assert_equal(Vector3.new(1,   2, 5), box1.max_point)
+    assert_equal(Vector3.new(0,   0, 0), box2.min_point)
+    assert_equal(Vector3.new(1,   1, 0), box2.max_point)
+  end
+
   def test_point
     point = @rectangle.point(0.2, 1.0)
     assert_equal(Vector3.new(1, 1.9, 5), point)
