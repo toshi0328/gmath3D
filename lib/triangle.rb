@@ -8,6 +8,8 @@ module GMath3D
 public
     attr_accessor :vertices
 
+    include BoxAvailable
+
     # [Input]
     #  _vertex1_, _vertex2_, _vertex3_ should be Vector3.
     # [Output]
@@ -43,12 +45,6 @@ public
 
     def to_s
       "Triangle[#{@vertices[0].to_element_s}, #{@vertices[1].to_element_s}, #{@vertices[2].to_element_s}]"
-    end
-
-    # [Output]
-    #  return axially aligned bounding box as Box.
-    def box
-      return Box.from_points( vertices )
     end
 
     # [Input]

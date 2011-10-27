@@ -9,6 +9,8 @@ public
     attr_accessor :start_point
     attr_accessor :end_point
 
+    include BoxAvailable
+
     # [Input]
     #  _start_point_ and _end_point_ should be Vector3.
     # [Output]
@@ -43,10 +45,9 @@ public
     end
 
     # [Output]
-    #  return axially aligned bounding box as Box.
-    def box
-      stt_end_points = [start_point, end_point]
-      return Box.from_points( stt_end_points )
+    #  return Array of start_point and end_point.
+    def vertices
+      return [start_point, end_point]
     end
 
     # [Output]

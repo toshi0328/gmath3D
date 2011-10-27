@@ -12,6 +12,8 @@ public
     attr_accessor:u_vector
     attr_accessor:v_vector
 
+    include BoxAvailable
+
     # [Input]
     #  _base_point_ , _u_vector_, _v_vector_ should be Vector3.
     # _u_vector_ and _v_vector_ should be orthogonalized.
@@ -48,12 +50,6 @@ public
 
     def to_s
       "Rectangle[base#{@base_point.to_element_s}, u#{@u_vector.to_element_s}, v#{@v_vector.to_element_s}"
-    end
-
-    # [Output]
-    #  return axially aligned bounding box as Box.
-    def box
-      return Box.from_points( self.vertices() )
     end
 
     # [Input]

@@ -5,9 +5,18 @@ module GMath3D
         raise(ArgumentError::new("type mismatch: #{instance.class} for #{type}"))
       end
     end
-    
+
     def self.raise_argurment_error(instance)
       raise(ArgumentError::new("type mismatch: #{instance.class}"))
+    end
+  end
+
+  # Including 'vertices' methodshould be implimented that gets geometry vertices as Array of Vector3.
+  module BoxAvailable
+    # [Output]
+    #  return axially aligned bounding box as Box.
+    def box
+      return Box.from_points( vertices )
     end
   end
 end
