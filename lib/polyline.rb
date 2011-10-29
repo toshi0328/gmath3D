@@ -9,6 +9,8 @@ module GMath3D
     attr_accessor :vertices
     attr_accessor :is_open
 
+    include BoxAvailable
+
     # [Input]
     #  _vertices_ should be Array of Vector3.
     # [Output]
@@ -53,12 +55,6 @@ module GMath3D
       str += "open" if(@is_open)
       str += "closed" if(!@is_open)
       return str
-    end
-
-    # [Output]
-    #  return axially aligned bounding box as Box.
-    def box
-      return Box.from_points( vertices )
     end
 
     # [Output]

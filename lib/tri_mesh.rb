@@ -8,6 +8,8 @@ module GMath3D
     attr_reader :vertices
     attr_reader :tri_indices
 
+    include BoxAvailable
+
     # [Input]
     #  vertices is Array of Vector3.
     #  tri_indices is Array of triangle whick is consist of 3 vertices index.
@@ -202,12 +204,6 @@ module GMath3D
 
     def to_s
       "TriMesh[triangle_count:#{tri_indices.size}, vertex_count:#{vertices.size}]"
-    end
-
-    # [Output]
-    #  return axially aligned bounding box as Box.
-    def box
-      return Box.from_points( self.vertices() )
     end
 
    # [Input]
