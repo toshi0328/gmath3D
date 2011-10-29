@@ -83,6 +83,7 @@ private
       true
     end
     def add(rhs)
+      return self if (rhs == nil)
       if( rhs.kind_of?(Vector3))
         added_box = Box.new()
         added_box.min_point.x = [ self.min_point.x, rhs.x ].min
