@@ -24,6 +24,15 @@ class FiniteLineTestCase < MiniTest::Unit::TestCase
     assert_equal("FiniteLine[from[1, 0, 2], to[1, -3.5, 2]]", line.to_s)
   end
 
+  def test_rotation
+    line = FiniteLine.new(Vector3.new(1,0,0), Vector3.new(2,0,0))
+    angle = -45.0 * Math::PI / 180.0
+    mat = Matrix.from_axis( Vector3.new(0,0,1), angle )
+    rotated_line = line.rotate(mat)
+    assert_equal(Vector3.new(Math.sqrt(2)/2.0,Math.sqrt(2)/2.0,0), rotated_line.start_point)
+    assert_equal(Vector3.new(Math.sqrt(2),Math.sqrt(2),0), rotated_line.end_point)
+  end
+
   def test_equals
     line = FiniteLine.new()
     shallow_copied = line

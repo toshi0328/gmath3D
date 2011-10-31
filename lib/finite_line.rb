@@ -33,6 +33,16 @@ public
     end
 
     # [Input]
+    #  _mat_ should be Matrix which row and col size are 3.
+    # [Output]
+    #  return rotated FiniteLine.
+    def rotate(mat)
+      rot_start_point = mat*start_point
+      rot_end_point = mat*end_point
+      return FiniteLine.new(rot_start_point, rot_end_point)
+    end
+
+    # [Input]
     #  _rhs_ should be FiniteLine.
     # [Output]
     #  return true if rhs equals myself.
