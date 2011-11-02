@@ -1,3 +1,4 @@
+# -*- coding: cp932 -*-
 require 'gmath3D'
 
 module GMath3D
@@ -106,6 +107,23 @@ public
               self.y*rhs.z - self.z*rhs.y,
               self.z*rhs.x - self.x*rhs.z,
               self.x*rhs.y - self.y*rhs.x)
+    end
+
+    # [Output]
+    #  return orthogonal vector as Vector3.
+    def arbitrary_orthogonal
+      return Vector3.new() if(self.length < self.tolerance)
+
+      if(!self.parallel?( Vector3.new(0.0, 1.0, 0.0) ))
+        un_parallel_vec = Vector3.new(0.0,1.0,0.0)
+      elsif(!self.parallel?( Vector3.new(0.0,0.0,1.0) ))
+        un_parallel_vec = Vector3.new(0.0,0.0,1.0)
+      else
+	un_parallel_vec = Vector3.new(1.0,0.0,0.0)
+      end
+
+      orthogonal = self.cross(un_parallel_vec)
+      return orthogonal.normalize
     end
 
     # [Output]

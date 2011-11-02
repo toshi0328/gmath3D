@@ -406,5 +406,34 @@ class Vector3TestCase < MiniTest::Unit::TestCase
     assert_equal( 0, matrix[2,0])
   end
 
+  def test_arbitrary_orthogonal
+    vec1 = Vector3.new( 1.0, 2.0, 3.0 )
+    vec2 = Vector3.new( 1.0, 1.0, 4.0 )
+    vec3 = Vector3.new( 2.0, 4.0, 6.0 )
+    vec4 = Vector3.new( -1.0, -2.0, -3.0 )
+    vecx = Vector3.new( 1.0,  0.0,  0.0 )
+    vecy = Vector3.new( 0.0, -3.0,  0.0 )
+    vecz = Vector3.new( 0.0,  0.0,  5.0 )
+    veczero = Vector3.new( 0.0,  0.0,  0.0 )
 
+    vec1_orth = vec1.arbitrary_orthogonal
+    vec2_orth = vec2.arbitrary_orthogonal
+    vec3_orth = vec3.arbitrary_orthogonal
+    vec4_orth = vec4.arbitrary_orthogonal
+    vecx_orth = vecx.arbitrary_orthogonal
+    vecy_orth = vecy.arbitrary_orthogonal
+    vecz_orth = vecz.arbitrary_orthogonal
+    veczero_orth = veczero.arbitrary_orthogonal
+
+    assert_in_delta(0.5*Math::PI, vec1.angle(vec1_orth), vec1.tolerance)
+    assert_in_delta(0.5*Math::PI, vec2.angle(vec2_orth), vec2.tolerance)
+    assert_in_delta(0.5*Math::PI, vec3.angle(vec3_orth), vec3.tolerance)
+    assert_in_delta(0.5*Math::PI, vec4.angle(vec4_orth), vec4.tolerance)
+    assert_in_delta(0.5*Math::PI, vecx.angle(vecx_orth), vecx.tolerance)
+    assert_in_delta(0.5*Math::PI, vecy.angle(vecy_orth), vecy.tolerance)
+    assert_in_delta(0.5*Math::PI, vecz.angle(vecz_orth), vecz.tolerance)
+    assert_in_delta(0.0, veczero_orth.x, veczero.tolerance)
+    assert_in_delta(0.0, veczero_orth.y, veczero.tolerance)
+    assert_in_delta(0.0, veczero_orth.z, veczero.tolerance)
+  end
 end
