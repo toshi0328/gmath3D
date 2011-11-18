@@ -98,12 +98,11 @@ module GMath3D
 
       tri_idx = 0
       vert_tris_map = Hash.new(nil)
-      tris.each do | triangle |
+      tris.each_with_index do | triangle, tri_idx |
         triangle.vertices.each do | vertex |
           vert_tris_map[vertex] = Array.new() if( !vert_tris_map.key?(vertex) )
           vert_tris_map[vertex] = vert_tris_map[vertex].push(tri_idx)
         end
-        tri_idx += 1
       end
 
       tri_indices = Array.new( tris.size )
@@ -237,6 +236,23 @@ module GMath3D
       end
       return area_sum
     end
+
+    # [Output]
+    #  return normal vector for each vertex as Hash{ Vector3 vertex => Vector3 normal_vector}.
+    def normals_for_each_vertices
+      normals_map = Hash.new(nil)
+      triangles.each_with_index do | tri, tri_idx |
+        tri.vertices.each_with_index do | vertex, ver_idx |
+          normals_map[vertex] = Vector3.new() if( !normals_map.key?(vertex) )
+          normals_map[vertex] += tri.normal*tri.angle(ver_idx)
+        end
+      end
+      normals_map.each do |vertex, normal|
+        normals_map[vertex] = normal.normalize
+      end
+      return  normals_map
+    end
+
   end
 end
 

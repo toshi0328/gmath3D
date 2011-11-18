@@ -173,4 +173,14 @@ class TriMeshTestCase < MiniTest::Unit::TestCase
     box_mesh = get_box_mesh()
     assert_equal(94, box_mesh.area)
   end
+
+  def test_normals_for_each_vertices
+    box = Box.new(Vector3.new(-1,-1,-1), Vector3.new(1,1,1))
+    box_mesh  = TriMesh.from_box(box)
+    result = box_mesh.normals_for_each_vertices
+    assert_equal( box_mesh.vertices.size, result.size )
+    box_mesh.vertices.each do |vertex|
+      assert_equal(vertex.normalize, result[vertex])
+    end
+  end
 end
