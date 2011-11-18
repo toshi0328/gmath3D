@@ -299,4 +299,20 @@ class TriangleTestCase < MiniTest::Unit::TestCase
     assert_equal( nil, point_on_triangle )
     assert_equal( nil, point_on_plane )
   end
+
+  def test_angle
+    triangle1 = Triangle.new( Vector3.new(0,0,1), Vector3.new(Math.sqrt(3.0),0,1), Vector3.new(0,1,1))
+    triangle2 = Triangle.new( Vector3.new(1,0,0), Vector3.new(0,0,1), Vector3.new(1,1,1))
+
+    assert_equal(nil, triangle1.angle(-1))
+    assert_equal(nil, triangle1.angle(3))
+
+    assert_in_delta(90.0*Math::PI/180.0, triangle1.angle(0), triangle1.tolerance)
+    assert_in_delta(30.0*Math::PI/180.0, triangle1.angle(1), triangle1.tolerance)
+    assert_in_delta(60.0*Math::PI/180.0, triangle1.angle(2), triangle1.tolerance)
+
+    assert_in_delta(60.0*Math::PI/180.0, triangle2.angle(0), triangle1.tolerance)
+    assert_in_delta(60.0*Math::PI/180.0, triangle2.angle(1), triangle1.tolerance)
+    assert_in_delta(60.0*Math::PI/180.0, triangle2.angle(2), triangle1.tolerance)
+  end
 end

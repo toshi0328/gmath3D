@@ -90,9 +90,23 @@ public
       return (vec1.cross(vec2).normalize)
     end
 
+    # [Input]
+    #  _vertex_index_ should be 0..2.
+    # [Output]
+    #  return angle as Numeric(radian).
+    def angle( vertex_index )
+      return nil if(vertex_index < 0 || vertex_index > 2)
+      vert1 = self.vertices[vertex_index]
+      vert2 = self.vertices[(vertex_index+1)%3]
+      vert3 = self.vertices[(vertex_index+2)%3]
+      vec1 = vert2 - vert1
+      vec2 = vert3 - vert1
+      vec1.angle(vec2)
+    end
+
     # [Output]
     #  return normal vector reversed triangle
-    def reverse()
+    def reverse
       return Triangle.new(@vertices[0], @vertices[2], @vertices[1])
     end
 
