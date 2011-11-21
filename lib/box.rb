@@ -75,6 +75,34 @@ public
       return width*height*depth
     end
 
+    # [Output]
+    #  return all vertices of Box.
+    def vertices
+      verts = Array.new(8)
+      length_ary = self.length
+      verts[0] = @min_point.clone
+      verts[1] = @min_point + Vector3.new(length_ary[0],             0,            0 )
+      verts[2] = @min_point + Vector3.new(length_ary[0], length_ary[1],            0 )
+      verts[3] = @min_point + Vector3.new(            0, length_ary[1],            0 )
+      verts[4] = @min_point + Vector3.new(            0,             0, length_ary[2])
+      verts[5] = @min_point + Vector3.new(length_ary[0],             0, length_ary[2])
+      verts[6] = @min_point + Vector3.new(length_ary[0], length_ary[1], length_ary[2])
+      verts[7] = @min_point + Vector3.new(            0, length_ary[1], length_ary[2])
+      return verts
+    end
+
+    # [input]
+    #  _quat_ should be Quat.
+    # [Output]
+    #  return rotated box as Box.
+    #  since Box is AABB, returned box might be bigger than original one.
+    def rotate(quat)
+      rot_matrix = Matrix.from_quat(quat)
+      verts = self.vertices
+      verts = verts.collect {|item| rot_matrix*item}
+      return Box.from_points(verts)
+    end
+
 private
     def equals_inner(rhs)
       return false if( !rhs.kind_of?(Box) )

@@ -116,4 +116,40 @@ class BoxTestCase < MiniTest::Unit::TestCase
     assert_in_delta( 1.0, @box_default.volume, @box_default.tolerance )
     assert_in_delta( 112.5, @box.volume, @box.tolerance )
   end
+
+  def test_vertices
+    verts = @box_default.vertices
+    assert(verts.include?(Vector3.new(0,0,0)))
+    assert(verts.include?(Vector3.new(1,0,0)))
+    assert(verts.include?(Vector3.new(1,1,0)))
+    assert(verts.include?(Vector3.new(0,1,0)))
+    assert(verts.include?(Vector3.new(0,0,1)))
+    assert(verts.include?(Vector3.new(1,0,1)))
+    assert(verts.include?(Vector3.new(1,1,1)))
+    assert(verts.include?(Vector3.new(0,1,1)))
+
+    verts = @box.vertices #.new(-3,2,5), Vector3.new(2,-2.5, 0))
+    assert(verts.include?(Vector3.new(-3, -2.5, 0)))
+    assert(verts.include?(Vector3.new( 2, -2.5, 0)))
+    assert(verts.include?(Vector3.new( 2,  2.0, 0)))
+    assert(verts.include?(Vector3.new(-3,  2.0, 0)))
+    assert(verts.include?(Vector3.new(-3, -2.5, 5)))
+    assert(verts.include?(Vector3.new( 2, -2.5, 5)))
+    assert(verts.include?(Vector3.new( 2,  2.0, 5)))
+    assert(verts.include?(Vector3.new(-3,  2.0, 5)))
+  end
+
+  def test_rotate
+    angle_90 = 90.0*Math::PI/180.0
+    angle_45 = 45.0*Math::PI/180.0
+    rotation1 = Quat.from_axis(Vector3.new(0,0,1), angle_90)
+    rotation2 = Quat.from_axis(Vector3.new(0,0,1), angle_45)
+#    rotation3 = Quat.from_axis(Vector3.new(1,1,1).normalize, angle_90)
+    rotated1 = @box_default.rotate(rotation1)
+    rotated2 = @box_default.rotate(rotation2)
+    assert_equal(Box.new(Vector3.new(0,-1,0), Vector3.new(1,0,1)), rotated1)
+    assert_equal(Box.new(
+                     Vector3.new(0, -(Math.sqrt(2.0)/2) ,0),
+                     Vector3.new(Math.sqrt(2.0), (Math.sqrt(2.0)/2) ,1)), rotated2)
+  end
 end
