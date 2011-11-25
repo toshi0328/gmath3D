@@ -92,6 +92,14 @@ public
     end
 
     # [input]
+    #  _vec_ should be Vector3.
+    # [Output]
+    #  return translated box as Box.
+    def translate(vec)
+      return Box.new(min_point + vec, max_point + vec)
+    end
+
+    # [input]
     #  _quat_ should be Quat.
     # [Output]
     #  return rotated box as Box.

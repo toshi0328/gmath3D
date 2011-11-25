@@ -139,6 +139,15 @@ class BoxTestCase < MiniTest::Unit::TestCase
     assert(verts.include?(Vector3.new(-3,  2.0, 5)))
   end
 
+  def test_translate
+    trans = Vector3.new(1,2.5,-0.5)
+    translated = @box_default.translate(trans)
+    assert_equal(Box.new(Vector3.new(1,2.5,-0.5), Vector3.new(2,3.5,0.5)), translated)
+
+    # this procedure is not destructive
+    assert_equal(Box.new(Vector3.new(0,0,0), Vector3.new(1,1,1)), @box_default)
+  end
+
   def test_rotate
     angle_90 = 90.0*Math::PI/180.0
     angle_45 = 45.0*Math::PI/180.0
@@ -151,5 +160,8 @@ class BoxTestCase < MiniTest::Unit::TestCase
     assert_equal(Box.new(
                      Vector3.new(0, -(Math.sqrt(2.0)/2) ,0),
                      Vector3.new(Math.sqrt(2.0), (Math.sqrt(2.0)/2) ,1)), rotated2)
+
+    # this procedure is not destructive
+    assert_equal(Box.new(Vector3.new(0,0,0), Vector3.new(1,1,1)), @box_default)
   end
 end
