@@ -4,8 +4,9 @@ require 'util'
 require 'ext'
 
 require 'geom'
-require 'vector3'
 require 'quat'
+
+require 'vector3'
 
 require 'line'
 require 'finite_line'
