@@ -16,10 +16,10 @@ public
     # [Output]
     #  return new instance of Quat.
     def initialize(x=0.0,y=0.0,z=0.0,w=0.0)
-      Util.check_arg_type(Numeric, x)
-      Util.check_arg_type(Numeric, y)
-      Util.check_arg_type(Numeric, z)
-      Util.check_arg_type(Numeric, w)
+      Util3D.check_arg_type(Numeric, x)
+      Util3D.check_arg_type(Numeric, y)
+      Util3D.check_arg_type(Numeric, z)
+      Util3D.check_arg_type(Numeric, w)
       super()
       @x = x
       @y = y
@@ -32,8 +32,8 @@ public
     # [Output]
     #  return new instance of Quat.
     def self.from_axis(axis, angle)
-      Util.check_arg_type(Vector3, axis)
-      Util.check_arg_type(Numeric, angle)
+      Util3D.check_arg_type(Vector3, axis)
+      Util3D.check_arg_type(Numeric, angle)
       s = Math.sin(0.5*angle)
       x = s * axis.x
       y = s * axis.y
@@ -134,7 +134,7 @@ public
     # [Output]
     #  return added result as Quat.
     def +(rhs)
-      Util.check_arg_type(Quat, rhs)
+      Util3D.check_arg_type(Quat, rhs)
       t1 = Vector3.new(self.x, self.y, self.z)
       t2 = Vector3.new(rhs.x, rhs.y, rhs.z)
       dot = t1.dot(t2)
@@ -154,7 +154,7 @@ public
     # [Output]
     #  return (outer products) multiplyed result as Quat.
     def *(rhs)
-      Util.check_arg_type(Quat, rhs)
+      Util3D.check_arg_type(Quat, rhs)
 
       pw = self.w; px = self.x; py = self.y; pz = self.z;
       qw = rhs.w ; qx = rhs.x ; qy = rhs.y ; qz = rhs.z;

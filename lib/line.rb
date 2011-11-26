@@ -18,8 +18,8 @@ module GMath3D
     # [Output]
     #  return new instance of Line.
     def initialize(point = Vector3.new(0.0,0.0,0.0), direction = Vector3.new(1.0,0.0,0.0))
-      Util.check_arg_type(Vector3, point)
-      Util.check_arg_type(Vector3, direction)
+      Util3D.check_arg_type(Vector3, point)
+      Util3D.check_arg_type(Vector3, direction)
       super()
       @base_point = point
       @direction  = direction
@@ -47,7 +47,7 @@ module GMath3D
     # [Output]
     #  return a point on line at input parameter position as Vector3
     def point(parameter)
-      Util.check_arg_type(::Numeric, parameter)
+      Util3D.check_arg_type(::Numeric, parameter)
       @base_point + @direction*parameter
     end
 
@@ -69,7 +69,7 @@ module GMath3D
       elsif(target.kind_of?(Line))
         return distance_to_line(target)
       end
-      Util.raise_argurment_error(target)
+      Util3D.raise_argurment_error(target)
     end
 
     private

@@ -17,15 +17,15 @@ module GMath3D
     #  return new instance of TriMesh.
     def initialize(vertices, tri_indices)
       # check arg
-      Util.check_arg_type(Array, vertices)
-      Util.check_arg_type(Array, tri_indices)
+      Util3D.check_arg_type(Array, vertices)
+      Util3D.check_arg_type(Array, tri_indices)
       vertices.each do |item|
-        Util.check_arg_type(Vector3, item)
+        Util3D.check_arg_type(Vector3, item)
       end
       tri_indices.each do |tri_index|
-        Util.check_arg_type(Array, tri_index)
+        Util3D.check_arg_type(Array, tri_index)
         tri_index.each do |item|
-          Util.check_arg_type(Integer, item)
+          Util3D.check_arg_type(Integer, item)
         end
       end
       super()
@@ -49,7 +49,7 @@ module GMath3D
     # [Output]
     #  return new instance of TriMesh.
     def self.from_box(box)
-      Util.check_arg_type(Box, box)
+      Util3D.check_arg_type(Box, box)
       width, height, depth = box.length()
       vertices = Array.new(8)
       vertices[0] = box.min_point
@@ -82,7 +82,7 @@ module GMath3D
     # [Output]
     #  return new instance of TriMesh.
     def self.from_rectangle(rect)
-      Util.check_arg_type(Rectangle, rect)
+      Util3D.check_arg_type(Rectangle, rect)
       return TriMesh.new(rect.vertices, [[0,1,3], [1,2,3]])
     end
 
@@ -91,9 +91,9 @@ module GMath3D
     # [Output]
     #  return new instance of TriMesh
     def self.from_triangles(tris)
-      Util.check_arg_type(Array, tris)
+      Util3D.check_arg_type(Array, tris)
       tris.each do | item |
-        Util.check_arg_type(Triangle, item)
+        Util3D.check_arg_type(Triangle, item)
       end
 
       tri_idx = 0

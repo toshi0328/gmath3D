@@ -5,7 +5,6 @@ module GMath3D
   # Plane represents a infinite plane on 3D space.
   #
   class Plane < Geom
-public
     attr_accessor:base_point
     attr_accessor:normal
 
@@ -14,8 +13,8 @@ public
     # [Output]
     #  returns new instance of Plane.
     def initialize(base_point = Vector3.new(), normal = Vector3.new(0,0,1))
-      Util.check_arg_type(::Vector3, normal)
-      Util.check_arg_type(::Vector3, base_point)
+      Util3D.check_arg_type(::Vector3, normal)
+      Util3D.check_arg_type(::Vector3, base_point)
       super()
       @base_point = base_point
       @normal = normal.normalize()
@@ -70,7 +69,7 @@ public
       elsif(target.kind_of?(Plane))
         return distance_to_plane(target)
       end
-      Util.raise_argurment_error(target)
+      Util3D.raise_argurment_error(target)
     end
 
     # [Input]
@@ -78,7 +77,7 @@ public
     # [Output]
     #  retrun projected point on plane as Vector3.
     def project( target_point )
-      Util.check_arg_type(::Vector3, target_point)
+      Util3D.check_arg_type(::Vector3, target_point)
       distance, closest_point = self.distance( target_point )
       return closest_point
     end

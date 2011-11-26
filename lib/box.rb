@@ -5,7 +5,6 @@ module GMath3D
   # Box represents an axitially aligned box on 3D space.
   #
   class Box < Geom
-public
     attr_reader :min_point
     attr_reader :max_point
 
@@ -15,8 +14,8 @@ public
     # [Output]
     #  return new instance of Box.
     def initialize(point1 = Vector3.new(0,0,0), point2 = Vector3.new(1,1,1))
-      Util.check_arg_type(Vector3, point1)
-      Util.check_arg_type(Vector3, point2)
+      Util3D.check_arg_type(Vector3, point1)
+      Util3D.check_arg_type(Vector3, point2)
       super()
       @min_point = Vector3.new();
       @max_point = Vector3.new();
@@ -139,7 +138,7 @@ private
         end
         return added_box
       end
-      Util.raise_argurment_error(rhs)
+      Util3D.raise_argurment_error(rhs)
     end
   end
 end

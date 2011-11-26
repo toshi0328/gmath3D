@@ -1,11 +1,10 @@
 require 'gmath3D'
 require 'matrix'
 
-
 class Matrix
   def self.from_axis(axis, angle)
-    Util.check_arg_type(Vector3, axis)
-    Util.check_arg_type(Numeric, angle)
+    Util3D::check_arg_type(Vector3, axis)
+    Util3D::check_arg_type(Numeric, angle)
 
     return Matrix[
            [axis.x*axis.x*(1 - Math.cos(angle)) +        Math.cos(angle),
@@ -20,7 +19,7 @@ class Matrix
   end
 
   def self.from_quat(quat)
-    Util.check_arg_type(Quat, quat)
+    Util3D::check_arg_type(Quat, quat)
     qw = quat.w
     qx = quat.x
     qy = quat.y
@@ -53,3 +52,29 @@ class Matrix
   alias_method :*, :multi_new   # overwrite new multiply processing
 end
 
+class Array
+  def sum
+    s, n = self.sum_with_number
+    return s
+  end
+  def avg
+    s, n = self.sum_with_number
+    return s / n
+  end
+
+  def sum_with_number
+    return nil, 0 if(self.size <= 0)
+    s = nil
+    n = 0
+    self.each do |v|
+      next if v.nil?
+      if(s==nil)
+        s = v
+      else
+        s += v
+      end
+      n += 1
+    end
+    return s, n
+  end
+end

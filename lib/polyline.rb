@@ -16,7 +16,7 @@ module GMath3D
     # [Output]
     #  return new instance of Polyline.
     def initialize(vertices = [], is_open = true)
-      Util.check_arg_type(Array, vertices)
+      Util3D.check_arg_type(Array, vertices)
       super()
       @vertices = vertices
       @is_open  = is_open

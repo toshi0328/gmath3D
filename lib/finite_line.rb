@@ -16,8 +16,8 @@ public
     # [Output]
     #  return new instance as FiniteLine
     def initialize(start_point = Vector3.new(0,0,0), end_point = Vector3.new(1,0,0))
-      Util.check_arg_type(Vector3, start_point)
-      Util.check_arg_type(Vector3, end_point)
+      Util3D.check_arg_type(Vector3, start_point)
+      Util3D.check_arg_type(Vector3, end_point)
       super()
       @start_point = start_point
       @end_point  = end_point
@@ -105,12 +105,12 @@ public
       elsif(target.kind_of?(FiniteLine))
         return distance_to_finite_line(target)
       end
-      Util.raise_argurment_error(target)
+      Util3D.raise_argurment_error(target)
     end
 
     def self.ary_distanc_to_point(finite_lines, target_point)
-      Util.check_arg_type(::Array, finite_lines)
-      Util.check_arg_type(Vector3, target_point)
+      Util3D.check_arg_type(::Array, finite_lines)
+      Util3D.check_arg_type(Vector3, target_point)
       distance_ary = Array.new(0)
       points_ary   = Array.new(0)
       finite_lines.each do | item |
@@ -124,8 +124,8 @@ public
     end
 
     def self.ary_distance_to_line(finite_lines, target_line)
-      Util.check_arg_type(::Array, finite_lines)
-      Util.check_arg_type(Line, target_line)
+      Util3D.check_arg_type(::Array, finite_lines)
+      Util3D.check_arg_type(Line, target_line)
       distance_ary = Array.new(0)
       point_on_target_ary = Array.new(0)
       point_on_finite_line_ary = Array.new(0)

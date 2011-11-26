@@ -15,9 +15,9 @@ public
     # [Output]
     #  return new instance of Triangle.
     def initialize(vertex1 = Vector3.new(), vertex2 = Vector3.new(1,0,0), vertex3 = Vector3.new(0,1,0))
-      Util.check_arg_type(::Vector3, vertex1)
-      Util.check_arg_type(::Vector3, vertex2)
-      Util.check_arg_type(::Vector3, vertex3)
+      Util3D.check_arg_type(::Vector3, vertex1)
+      Util3D.check_arg_type(::Vector3, vertex2)
+      Util3D.check_arg_type(::Vector3, vertex3)
       super()
       @vertices = Array.new([vertex1, vertex2, vertex3])
     end
@@ -52,7 +52,7 @@ public
     # [Output]
     #  return point on triangle at parameter position as Vector3.
     def point( parameter )
-      Util.check_arg_type(::Array, parameter )
+      Util3D.check_arg_type(::Array, parameter )
       # TODO Argument check
       return self.vertices[0]*parameter[0] + self.vertices[1]*parameter[1] + self.vertices[2]*parameter[2]
     end
@@ -115,7 +115,7 @@ public
     # [Output]
     #  return barycentric_coordinate on check_point as three element Array of Numeric.
     def barycentric_coordinate( check_point )
-      Util.check_arg_type(::Vector3, check_point)
+      Util3D.check_arg_type(::Vector3, check_point)
 
       v0 = @vertices[0]
       v1 = @vertices[1]
@@ -185,7 +185,7 @@ public
       #with Plane
         return distance_to_plane(target)
       end
-      Util.raise_argurment_error(target)
+      Util3D.raise_argurment_error(target)
     end
 
     # [Input]
@@ -193,7 +193,7 @@ public
     # [Output]
     #  return true if triangle contains _check_point_.
     def contains?( check_point )
-      Util.check_arg_type(Vector3, check_point )
+      Util3D.check_arg_type(Vector3, check_point )
       plane = Plane.new( vertices[0], self.normal)
       distance, projected_point = plane.distance(check_point)
       return false if( distance > self.tolerance )

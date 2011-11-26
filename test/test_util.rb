@@ -12,28 +12,28 @@ class UtilTestCase < MiniTest::Unit::TestCase
     stringInstance = 'string'
 
    # no exception raise
-    Util.check_arg_type(Integer, integerInstance)
-    Util.check_arg_type(Float, floatInstance)
-    Util.check_arg_type(String, stringInstance)
+    Util3D.check_arg_type(Integer, integerInstance)
+    Util3D.check_arg_type(Float, floatInstance)
+    Util3D.check_arg_type(String, stringInstance)
 
     # exception raise
     assert_raises ArgumentError do
-      Util.check_arg_type(Integer, floatInstance)
+      Util3D.check_arg_type(Integer, floatInstance)
     end
     assert_raises ArgumentError do
-      Util.check_arg_type(Integer, stringInstance)
+      Util3D.check_arg_type(Integer, stringInstance)
     end
     assert_raises ArgumentError do
-      Util.check_arg_type(Float, integerInstance)
+      Util3D.check_arg_type(Float, integerInstance)
     end
     assert_raises ArgumentError do
-      Util.check_arg_type(Float, stringInstance)
+      Util3D.check_arg_type(Float, stringInstance)
     end
     assert_raises ArgumentError do
-      Util.check_arg_type(String, integerInstance)
+      Util3D.check_arg_type(String, integerInstance)
     end
     assert_raises ArgumentError do
-      Util.check_arg_type(String, floatInstance)
+      Util3D.check_arg_type(String, floatInstance)
     end
   end
 

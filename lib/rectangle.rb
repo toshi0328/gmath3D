@@ -20,9 +20,9 @@ public
     # [Output]
     #  return new instance of Rectangle.
     def initialize(base_point_arg = Vector3.new(), u_vector_arg = Vector3.new(1,0,0), v_vector_arg = Vector3.new(0,1,0))
-      Util.check_arg_type(::Vector3, base_point_arg)
-      Util.check_arg_type(::Vector3, u_vector_arg)
-      Util.check_arg_type(::Vector3, v_vector_arg)
+      Util3D.check_arg_type(::Vector3, base_point_arg)
+      Util3D.check_arg_type(::Vector3, u_vector_arg)
+      Util3D.check_arg_type(::Vector3, v_vector_arg)
       super()
       self.base_point = base_point_arg
       self.u_vector = u_vector_arg
@@ -57,8 +57,8 @@ public
     # [Output]
     #  return point on rectangle as Vector3.
     def point(u, v)
-      Util.check_arg_type(::Numeric, u)
-      Util.check_arg_type(::Numeric, v)
+      Util3D.check_arg_type(::Numeric, u)
+      Util3D.check_arg_type(::Numeric, v)
       return base_point + u_vector*u + v_vector*v
     end
 
@@ -113,7 +113,7 @@ public
     # [Output]
     #  return u, v parametes on check_point as [Numeric, Numeric].
     def uv_parameter(check_point)
-      Util.check_arg_type(::Vector3, check_point)
+      Util3D.check_arg_type(::Vector3, check_point)
       mat = Matrix[[u_vector.x, u_vector.y, u_vector.z],
             [v_vector.x, v_vector.y, v_vector.z],
             [normal.x, normal.y, normal.z]]
@@ -134,7 +134,7 @@ public
         #with Line
 #        return distance_to_line(target)
       end
-      Util.raise_argurment_error(target)
+      Util3D.raise_argurment_error(target)
     end
 
 private
