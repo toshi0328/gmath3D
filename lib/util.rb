@@ -8,6 +8,12 @@ module Util3D
   def self.raise_argurment_error(instance)
     raise(ArgumentError::new("type mismatch: #{instance.class}"))
   end
+
+  def self.check_key_arg(arg, key)
+    if(!arg.include?(key))
+      raise(ArgumentError::new("args should be contains: #{key}"))
+    end
+  end
 end
 
 module GMath3D

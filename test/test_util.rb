@@ -35,6 +35,13 @@ class UtilTestCase < MiniTest::Unit::TestCase
     assert_raises ArgumentError do
       Util3D.check_arg_type(String, floatInstance)
     end
+
+    # not raise exception
+    arg = {:geom => Vector3.new(), :color => [1,0,0,1]}
+    Util3D.check_key_arg(arg, :geom)
+    assert_raises ArgumentError do
+      Util3D.check_key_arg(arg, :dummy)
+    end
   end
 
   def test_array_methods
