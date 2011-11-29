@@ -42,6 +42,30 @@ class UtilTestCase < MiniTest::Unit::TestCase
     assert_raises ArgumentError do
       Util3D.check_key_arg(arg, :dummy)
     end
+
+    # test nullable
+    Util3D.check_arg_type(String, nil, true)
+    assert_raises ArgumentError do
+      Util3D.check_arg_type(String, nil, false)
+    end
+    assert_raises ArgumentError do
+      Util3D.check_arg_type(String, nil)
+    end
+    assert_raises ArgumentError do
+      Util3D.check_arg_type(String, ["hoge", nil], false, true)
+    end
+
+    #test array check
+    Util3D.check_arg_type(String, "hoge")
+    Util3D.check_arg_type(String, "hoge", false, true)
+    Util3D.check_arg_type(String, ["hoge", "piyo"], false, true)
+    Util3D.check_arg_type(String, ["hoge", nil], true, true)
+    assert_raises ArgumentError do
+      Util3D.check_arg_type(String, ["hoge", "piyo"], false, false)
+    end
+    assert_raises ArgumentError do
+      Util3D.check_arg_type(String, ["hoge", "piyo"], false)
+    end
   end
 
   def test_array_methods
