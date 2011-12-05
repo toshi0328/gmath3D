@@ -35,6 +35,20 @@ class Vector3TestCase < MiniTest::Unit::TestCase
     assert_equal("[1, 2.0, 3.0]", @vector.to_element_s)
   end
 
+  def test_to_ary
+    assert_equal(Array, @vector_init_zero.to_ary.class)
+    assert_equal(3, @vector_init_zero.to_ary.size)
+    assert_equal(@vector_init_zero.x, @vector_init_zero.to_ary[0])
+    assert_equal(@vector_init_zero.y, @vector_init_zero.to_ary[1])
+    assert_equal(@vector_init_zero.z, @vector_init_zero.to_ary[2])
+
+    assert_equal(Array, @vector.to_ary.class)
+    assert_equal(@vector.x, @vector.to_ary[0])
+    assert_equal(@vector.y, @vector.to_ary[1])
+    assert_equal(@vector.z, @vector.to_ary[2])
+    assert_equal(3, @vector.to_ary.size)
+  end
+
   def test_assign_value
     assert_equal(1.0, @vector.x)
     assert_equal(2.0, @vector.y)
