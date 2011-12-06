@@ -106,7 +106,8 @@ module GMath3D
     def rotate(quat)
       rot_matrix = Matrix.from_quat(quat)
       verts = self.vertices
-      verts = verts.collect {|item| rot_matrix*item}
+      inv_mat = rot_matrix.inv
+      verts = verts.collect {|item| inv_mat*item}
       return Box.from_points(verts)
     end
 

@@ -153,13 +153,18 @@ class BoxTestCase < MiniTest::Unit::TestCase
     angle_45 = 45.0*Math::PI/180.0
     rotation1 = Quat.from_axis(Vector3.new(0,0,1), angle_90)
     rotation2 = Quat.from_axis(Vector3.new(0,0,1), angle_45)
-#    rotation3 = Quat.from_axis(Vector3.new(1,1,1).normalize, angle_90)
     rotated1 = @box_default.rotate(rotation1)
     rotated2 = @box_default.rotate(rotation2)
-    assert_equal(Box.new(Vector3.new(0,-1,0), Vector3.new(1,0,1)), rotated1)
+
+    assert_equal(Box.new(Vector3.new(-1,0,0), Vector3.new(0,1,1)), rotated1)
     assert_equal(Box.new(
-                     Vector3.new(0, -(Math.sqrt(2.0)/2) ,0),
-                     Vector3.new(Math.sqrt(2.0), (Math.sqrt(2.0)/2) ,1)), rotated2)
+                     Vector3.new(-(Math.sqrt(2.0)/2) ,0, 0),
+                     Vector3.new((Math.sqrt(2.0)/2) ,Math.sqrt(2.0),1)) , rotated2)
+
+    box2 = Box.new(Vector3.new(-1,-1,0),Vector3.new(1,1,3))
+    rotation1 = Quat.from_axis(Vector3.new(1,0,0), angle_90)
+    box2_rotated = box2.rotate(rotation1)
+    assert_equal(Box.new(Vector3.new(-1,-3,-1), Vector3.new(1,0,1)), box2_rotated)
 
     # this procedure is not destructive
     assert_equal(Box.new(Vector3.new(0,0,0), Vector3.new(1,1,1)), @box_default)
