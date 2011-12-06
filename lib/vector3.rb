@@ -32,6 +32,10 @@ module GMath3D
       "Vector3" + to_element_s
     end
 
+    def to_ary
+      [@x,@y,@z]
+    end
+
     # [Input]
     #  _rhs_ should be Vector3.
     # [Output]
