@@ -3,8 +3,6 @@ require 'helper'
 
 include GMath3D
 
-Minitest.autorun
-
 class EllipseTestCase < Minitest::Test
   def test_initialize
   end

@@ -3,8 +3,6 @@ require 'helper'
 
 include GMath3D
 
-Minitest.autorun
-
 class UtilTestCase < Minitest::Test
   def test_check_arg_type
     integerInstance = 1

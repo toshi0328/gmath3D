@@ -3,8 +3,6 @@ require 'helper'
 
 include GMath3D
 
-Minitest.autorun
-
 class PlaneTestCase < Minitest::Test
   def setup
     @base_point = Vector3.new(0,0,1)

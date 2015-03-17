@@ -3,8 +3,6 @@ require 'helper'
 
 include GMath3D
 
-Minitest.autorun
-
 class GeomTestCase < Minitest::Test
   def test_tolerance
     default_tolerance = Geom.default_tolerance

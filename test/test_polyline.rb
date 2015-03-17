@@ -3,8 +3,6 @@ require 'helper'
 
 include GMath3D
 
-Minitest.autorun
-
 class PolylineTestCase < Minitest::Test
   def setup
     @vertices = Array.new(6)

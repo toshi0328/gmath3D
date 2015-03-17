@@ -3,8 +3,6 @@ require 'helper'
 
 include GMath3D
 
-Minitest.autorun
-
 class QuatTestCase < Minitest::Test
   def setup
     @quat_default = Quat.new()

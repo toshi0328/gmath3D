@@ -3,8 +3,6 @@ require 'helper'
 
 include GMath3D
 
-Minitest.autorun
-
 class FiniteLineTestCase < Minitest::Test
   def test_initialize
     start_point_tmp = Vector3.new(1.0,  0.0, 2.0)

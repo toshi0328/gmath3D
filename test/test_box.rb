@@ -3,8 +3,6 @@ require 'helper'
 
 include GMath3D
 
-Minitest.autorun
-
 class BoxTestCase < Minitest::Test
   def setup
     @box_default = Box.new()

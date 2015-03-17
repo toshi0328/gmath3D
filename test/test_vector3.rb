@@ -3,8 +3,6 @@ require 'helper'
 
 include GMath3D
 
-Minitest.autorun
-
 class Vector3TestCase < Minitest::Test
   def setup
     @vector_init_zero = Vector3.new()

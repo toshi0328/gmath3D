@@ -3,8 +3,6 @@ require 'helper'
 
 include GMath3D
 
-Minitest.autorun
-
 class TriangleTestCase < Minitest::Test
   def setup
     @triangle = Triangle.new( Vector3.new(1,2,2), Vector3.new(1,4,2), Vector3.new(-1,3,0))
