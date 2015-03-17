@@ -3,9 +3,9 @@ require 'helper'
 
 include GMath3D
 
-MiniTest::Unit.autorun
+Minitest.autorun
 
-class PolylineTestCase < MiniTest::Unit::TestCase
+class PolylineTestCase < Minitest::Test
   def setup
     @vertices = Array.new(6)
     @vertices[0] = Vector3.new(1,0,0)

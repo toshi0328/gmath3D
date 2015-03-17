@@ -3,9 +3,9 @@ require 'helper'
 
 include GMath3D
 
-MiniTest::Unit.autorun
+Minitest.autorun
 
-class UtilTestCase < MiniTest::Unit::TestCase
+class UtilTestCase < Minitest::Test
   def test_check_arg_type
     integerInstance = 1
     floatInstance = 3.1415
