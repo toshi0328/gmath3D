@@ -1,11 +1,8 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'helper'
 
 include GMath3D
 
-MiniTest::Unit.autorun
-
-class GeomTestCase < MiniTest::Unit::TestCase
+class GeomTestCase < Minitest::Test
   def test_tolerance
     default_tolerance = Geom.default_tolerance
     geomObject = Geom.new

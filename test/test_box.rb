@@ -1,11 +1,8 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'helper'
 
 include GMath3D
 
-MiniTest::Unit.autorun
-
-class BoxTestCase < MiniTest::Unit::TestCase
+class BoxTestCase < Minitest::Test
   def setup
     @box_default = Box.new()
     @box = Box.new(Vector3.new(-3,2,5), Vector3.new(2,-2.5, 0))

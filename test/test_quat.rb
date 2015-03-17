@@ -1,11 +1,8 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'helper'
 
 include GMath3D
 
-MiniTest::Unit.autorun
-
-class QuatTestCase < MiniTest::Unit::TestCase
+class QuatTestCase < Minitest::Test
   def setup
     @quat_default = Quat.new()
     @quat1 = Quat.new(2.0, 3.0, 4.0, 1.0)

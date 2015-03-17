@@ -1,11 +1,8 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'helper'
 
 include GMath3D
 
-MiniTest::Unit.autorun
-
-class TriangleTestCase < MiniTest::Unit::TestCase
+class TriangleTestCase < Minitest::Test
   def setup
     @triangle = Triangle.new( Vector3.new(1,2,2), Vector3.new(1,4,2), Vector3.new(-1,3,0))
     @triangle_default = Triangle.new()

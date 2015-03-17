@@ -1,12 +1,9 @@
 # -*- coding: cp932 -*-
-$LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'helper'
 
 include GMath3D
 
-MiniTest::Unit.autorun
-
-class MatrixTestCase < MiniTest::Unit::TestCase
+class MatrixTestCase < Minitest::Test
   def setup
     @mat_default = Matrix.zero(3)
     @mat = Matrix[[1,2,3],[4,5,6],[7,8,9]]

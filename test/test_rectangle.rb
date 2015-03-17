@@ -1,11 +1,8 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'helper'
 
 include GMath3D
 
-MiniTest::Unit.autorun
-
-class RectangleTestCase < MiniTest::Unit::TestCase
+class RectangleTestCase < Minitest::Test
   def setup
     @rectangle = Rectangle.new( Vector3.new(1,2,3), Vector3.new(0,-0.5,0), Vector3.new(0,0,2))
     @rectangle_default = Rectangle.new()

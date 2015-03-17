@@ -1,11 +1,8 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'helper'
 
 include GMath3D
 
-MiniTest::Unit.autorun
-
-class EllipseTestCase < MiniTest::Unit::TestCase
+class EllipseTestCase < Minitest::Test
   def test_initialize
   end
 

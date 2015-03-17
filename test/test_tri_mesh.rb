@@ -1,11 +1,8 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'helper'
 
 include GMath3D
 
-MiniTest::Unit.autorun
-
-class TriMeshTestCase < MiniTest::Unit::TestCase
+class TriMeshTestCase < Minitest::Test
   def get_box_mesh
     box = Box.new(Vector3.new(-1,-1,-1), Vector3.new(2,3,4))
     return TriMesh.from_box(box)

@@ -1,11 +1,8 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'helper'
 
 include GMath3D
 
-MiniTest::Unit.autorun
-
-class FiniteLineTestCase < MiniTest::Unit::TestCase
+class FiniteLineTestCase < Minitest::Test
   def test_initialize
     start_point_tmp = Vector3.new(1.0,  0.0, 2.0)
     end_point_tmp   = Vector3.new(1.0, -3.5, 1.0)
