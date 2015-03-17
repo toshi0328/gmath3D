@@ -1,5 +1,4 @@
 # -*- coding: cp932 -*-
-$LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'helper'
 
 include GMath3D
